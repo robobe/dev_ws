@@ -32,16 +32,20 @@ namespace gazebo_plugins
         // Pass it SDF parameters so common options like namespace and remapping
         // can be handled.
         impl_->ros_node_ = gazebo_ros::Node::Get(_sdf);
-
+        printf("Hello World!\n");
+        gzdbg << "debug" << std::endl;
+        gzmsg << "message" << std::endl;
+        gzwarn << "warning" << std::endl;
+        gzerr << "error" << std::endl;
         // The model pointer gives you direct access to the physics object,
         // for example:
         RCLCPP_INFO(impl_->ros_node_->get_logger(), model->GetName().c_str());
-        RCLCPP_INFO(impl_->ros_node_->get_logger(), "hello world");
-        RCLCPP_INFO(impl_->ros_node_->get_logger(), "hello world1");
-        RCLCPP_INFO(impl_->ros_node_->get_logger(), "hello world2");
-        RCLCPP_ERROR(impl_->ros_node_->get_logger(), "ros error ");
-        gzerr << "gazebo demo error" << std::endl;
-        gzmsg << "message" << std::endl;
+        RCLCPP_INFO(impl_->ros_node_->get_logger(), "hello ros2");
+        RCLCPP_INFO(impl_->ros_node_->get_logger(), "hello from gazebo plugin");
+        RCLCPP_INFO(impl_->ros_node_->get_logger(), "ROS2 Info");
+        RCLCPP_WARN(impl_->ros_node_->get_logger(), "ROS2 Warning");
+        RCLCPP_ERROR(impl_->ros_node_->get_logger(), "ROS2 Error");
+        
         impl_->update_connection_ = gazebo::event::Events::ConnectWorldUpdateBegin(
             std::bind(&GazeboRosTemplate::OnUpdate, this));
     }
