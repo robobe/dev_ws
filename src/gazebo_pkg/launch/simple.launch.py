@@ -15,7 +15,7 @@ def generate_launch_description():
     gazebo_plugin_path = os.path.join(pkg, "lib")
     os.environ["GAZEBO_MODEL_PATH"] = gazebo_models_path
     os.environ["GAZEBO_PLUGIN_PATH"] = gazebo_plugin_path
-    world_file_name = "gazebo_ros_template_demo.world"
+    world_file_name = "gazebo_ros_template.world"
     world_path = os.path.join(pkg_share, "worlds", world_file_name)
 
     pkg_gazebo_ros = get_package_share_directory("gazebo_ros")

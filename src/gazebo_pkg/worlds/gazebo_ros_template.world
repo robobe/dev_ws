@@ -1,7 +1,4 @@
 <?xml version="1.0"?>
-<!--
-  gazebo_ros_template plugin demo
--->
 <sdf version="1.6">
   <world name="default">
     <model name="demo_model">
