@@ -72,3 +72,9 @@ ros2 launch gazebo_pkg simple.launch.py
 ```
 
 ![](/images/2022-01-29-07-41-45.png)
+
+
+---
+
+# References
+- [Class GazeboRosTemplate](https://docs.ros.org/en/ros2_packages/rolling/api/gazebo_plugins/generated/classgazebo__plugins_1_1GazeboRosTemplate.html)
