@@ -1,35 +1,3 @@
-
-# install
-
-```
-sudo apt install ros-foxy-ros2-control
-sudo apt install ros-foxy-gazebo-ros2-control
-```
-
-```bash
-ros2 control load_controller --set-state start joint_state_broadcaster
-ros2 control load_controller --set-state start effort_controllers
-#
-ros2 control list_controllers
-# Result
-joint_state_broadcaster[joint_state_broadcaster/JointStateBroadcaster] active    
-effort_controllers  [effort_controllers/JointGroupEffortController] active 
-```
-
-```
-ros2 interface show std_msgs/msg/Float64MultiArray
-```
-
-```
-ros2 topic pub -1 /effort_controllers/commands std_msgs/msg/Float64MultiArray "data:
-- 0.5
-- 0.5"
-```
-
-
-## launch
-
-```python
 import os
 
 from ament_index_python.packages import get_package_share_directory
@@ -102,4 +70,3 @@ def generate_launch_description():
     ld.add_action(spawn_entity)
     
     return ld
-```
