@@ -42,7 +42,7 @@
           <inertial>
             <origin xyz="0 0 0" rpy="0 ${PI/2} ${PI/2}" />
             <mass value="${wheelMass}"/>
-            <cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}"/>
+            <xacro:cylinder_inertia m="${wheelMass}" r="${wheelRadius}" h="${wheelWidth}"/>
           </inertial>
         </link>
     

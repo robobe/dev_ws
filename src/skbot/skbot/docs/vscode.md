@@ -52,5 +52,9 @@
             "cmd": "export PYTHONPATH=/opt/ros/foxy/lib/python3.8/site-packages && /opt/ros/foxy/bin/xacro ${file} -o ${fileDirname}/${fileBasenameNoExt}"
         }
     ]
-},
+}
 ```
+
+## Extensions
+### Draw.io integration
+- [marketplace](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)

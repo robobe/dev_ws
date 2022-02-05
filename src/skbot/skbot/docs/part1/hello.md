@@ -1,9 +1,9 @@
 # Hello SKBot
 
 - Create project packages
-- 
 
-```title="Create pkg"
+
+```bash title="create packages"
 mkdir skbot
 ros2 pkg create --build-type ament_cmake skbot_description
 ros2 pkg create --build-type ament_cmake skbot_gazebo --dependencies gazebo_ros
