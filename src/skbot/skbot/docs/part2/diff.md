@@ -47,6 +47,16 @@
 </gazebo>
 ```
 
+```xml title="ros section inside plugin tag"
+<ros>
+  <!-- Set namespace -->
+  <namespace>/demo</namespace>
+
+  <!-- Remap default topics -->
+  <argument>cmd_vel:=cmd_demo</argument>
+  <argument>odom:=odom_demo</argument>
+</ros>
+```
 !!! warning "joint_publisher"
      remove joint_publisher from launch file
 

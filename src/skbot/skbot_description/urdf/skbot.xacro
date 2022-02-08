@@ -99,4 +99,33 @@
           <state_interface name="effort"/>
         </joint>
       </ros2_control> -->
+    <!-- Adding a Camera -->
+    <joint name="camera_base" type="fixed">
+        <parent link="chassis"/>
+        <child link="camera" />
+        <!--origin xyz="${chassisLength/2-cameraSize/2} 0 ${chassisHeight+wheelRadius}" rpy="0 0 0" /-->
+        <origin xyz=".2 0 0.1" rpy="0 0 0" />
+    </joint>
+    <link name="camera">
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+            </geometry>
+        </collision>
+
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <geometry>
+                <box size="${cameraSize} ${cameraSize} ${cameraSize}"/>
+            </geometry>
+            <material name="blue"/>
+        </visual>
+
+        <inertial>
+            <mass value="${cameraMass}" />
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+            <box_inertia m="${cameraMass}" x="${cameraSize}" y="${cameraSize}" z="${cameraSize}" />
+        </inertial>
+    </link>
 </robot>
