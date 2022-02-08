@@ -12,10 +12,13 @@ import xacro
 
 log = logging.getLogger()
 
+GAZEBO_WORLD = "world01.world"
+
 def generate_launch_description():
     pkg_skbot_description = get_package_share_directory("skbot_description")
     pkg_gazebo_ros = get_package_share_directory("gazebo_ros")
     pkg_skbot_gazebo = get_package_share_directory("skbot_gazebo")
+    world_path = os.path.join(pkg_skbot_gazebo, "worlds", GAZEBO_WORLD)
 
     robot_description_path =  os.path.join(
         pkg_skbot_description,
@@ -42,7 +45,7 @@ def generate_launch_description():
     )
 
     world_arg = DeclareLaunchArgument("world",
-            default_value=[os.path.join(pkg_skbot_gazebo, "worlds", "skbot.world"), ""],
+            default_value=[world_path, ""],
             description="hello skbot world"
             )
 

@@ -9,7 +9,35 @@ tags:
 ### urdf with mesh
 - mesh file location `skbot_description/meshes` folder
 - Add this folder to gazebo env. variable `GAZEBO_RESOURCE_PATH` (launch file)
-- 
+
+!!! note "load resource"
+  - file
+  - model
+
+  ```xml
+  <!-- file -->
+  <visual name='base_link_visual'>
+    <pose>0 0 0 0 0 0</pose>
+    <geometry>
+      <mesh>
+        <scale>1 1 1</scale>
+        <uri>file://path_to_dae/textured.dae</uri>
+      </mesh>
+    </geometry>
+  </visual>
+
+  <!-- model -->
+  <visual name='base_link_visual'>
+    <pose>0 0 0 0 0 0</pose>
+    <geometry>
+      <mesh>
+        <scale>1 1 1</scale>
+        <uri>model://model_name/meshes/textured.dae</uri>
+      </mesh>
+    </geometry>
+  </visual>
+  ```
+     
 ```xml title="laser sensor" linenums="1" hl_lines="12"
 <link name="hokuyo">
     <collision>
