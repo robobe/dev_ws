@@ -22,7 +22,8 @@ setup(
         'console_scripts': [
             'hello = skbot_motion.hello:main',
             'hello_scan = skbot_motion.hello_laser:main',
-            'wall_follow = skbot_motion.wall_follow:main'
+            'wall_follow = skbot_motion.wall_follow:main',
+            'goto = skbot_motion.goto_point:main'
         ],
     },
 )

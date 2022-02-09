@@ -61,4 +61,4 @@ plugins:
   - tags
   - search
   - code_include:
-      base_path: /home/user/projects/wasp/
+      base_path: /home/user/dev_ws/src/skbot/
