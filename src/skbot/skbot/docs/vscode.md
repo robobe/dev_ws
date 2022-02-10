@@ -58,3 +58,6 @@
 ## Extensions
 ### Draw.io integration
 - [marketplace](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
+
+### ROS2
+[ROS2 nonanonno](https://marketplace.visualstudio.com/items?itemName=nonanonno.vscode-ros2)
