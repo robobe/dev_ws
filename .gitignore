@@ -3,3 +3,4 @@ build/
 install/
 **/aux
 **/__pycache__
+**/site
