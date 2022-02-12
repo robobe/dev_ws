@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<sdf version="1.7"
+  xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:property name="PI" value="3.14" />
+  <xacro:property name="PI_2" value="${PI/2}" />
+</sdf>
