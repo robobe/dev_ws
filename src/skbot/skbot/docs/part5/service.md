@@ -58,3 +58,19 @@ response:
 skbot_interfaces.srv.AddTwoInts_Response(sum=3)
 ```
 
+## Simple client
+### Async
+```python title="simple_async_client.py"
+{{include("skbot_ros101/skbot_ros101/simple_async_client.py")}}
+```
+
+### Sync
+```python title="simple_sync_client.py" linenums="1" hl_lines="27 28"
+{{include("skbot_ros101/skbot_ros101/simple_sync_client.py")}}
+```
+
+!!! tip "thread spin"
+    Sync client work only if run spin in separate thread
+    check line 27, 28 
+     
+
