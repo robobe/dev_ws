@@ -8,19 +8,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.1.3">
     
     
       
-        <title>skbot</title>
+        <title>using schema for sdf validation and tips - skbot</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.edf004c2.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.edf004c2.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.e6a45f82.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
         
       
     
@@ -34,7 +34,7 @@
       
     
     
-    <script>__md_scope=new URL(".",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -62,7 +62,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#welcome-to-mkdocs" class="md-skip">
+        <a href="#config-xml-ext-to-validate-xml-against-schema" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="skbot" class="md-header__button md-logo" aria-label="skbot" data-md-component="logo">
+    <a href="../.." title="skbot" class="md-header__button md-logo" aria-label="skbot" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Welcome to MkDocs
+              using schema for sdf validation and tips
             
           </span>
         </div>
@@ -184,7 +184,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="skbot" class="md-nav__button md-logo" aria-label="skbot" data-md-component="logo">
+    <a href="../.." title="skbot" class="md-nav__button md-logo" aria-label="skbot" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
@@ -201,59 +201,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Welcome to MkDocs
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Welcome to MkDocs
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    Commands
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    Project layout
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -266,7 +218,7 @@
   
   
     <li class="md-nav__item">
-      <a href="setup/" class="md-nav__link">
+      <a href="../../setup/" class="md-nav__link">
         colcon
       </a>
     </li>
@@ -307,7 +259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="mkdocs/setup/" class="md-nav__link">
+      <a href="../../mkdocs/setup/" class="md-nav__link">
         Setup
       </a>
     </li>
@@ -355,7 +307,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part1/" class="md-nav__link">
+      <a href="../../part1/" class="md-nav__link">
         Part1 Hello SKBot
       </a>
     </li>
@@ -369,7 +321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part1/hello/" class="md-nav__link">
+      <a href="../../part1/hello/" class="md-nav__link">
         Hello SKBot
       </a>
     </li>
@@ -383,7 +335,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part1/xacro/" class="md-nav__link">
+      <a href="../../part1/xacro/" class="md-nav__link">
         XACRO
       </a>
     </li>
@@ -431,7 +383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part2/control/" class="md-nav__link">
+      <a href="../../part2/control/" class="md-nav__link">
         install
       </a>
     </li>
@@ -445,7 +397,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part2/diff/" class="md-nav__link">
+      <a href="../../part2/diff/" class="md-nav__link">
         diff drive plugin
       </a>
     </li>
@@ -459,7 +411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part2/joy/" class="md-nav__link">
+      <a href="../../part2/joy/" class="md-nav__link">
         joy
       </a>
     </li>
@@ -473,7 +425,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part2/rviz/" class="md-nav__link">
+      <a href="../../part2/rviz/" class="md-nav__link">
         Rviz
       </a>
     </li>
@@ -487,7 +439,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part2/tf/" class="md-nav__link">
+      <a href="../../part2/tf/" class="md-nav__link">
         TF
       </a>
     </li>
@@ -535,7 +487,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part3/camera/" class="md-nav__link">
+      <a href="../../part3/camera/" class="md-nav__link">
         Camera
       </a>
     </li>
@@ -549,7 +501,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part3/laser/" class="md-nav__link">
+      <a href="../../part3/laser/" class="md-nav__link">
         laser scan
       </a>
     </li>
@@ -563,7 +515,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part3/launch/" class="md-nav__link">
+      <a href="../../part3/launch/" class="md-nav__link">
         Launch
       </a>
     </li>
@@ -611,7 +563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part4/goto/" class="md-nav__link">
+      <a href="../../part4/goto/" class="md-nav__link">
         go to
       </a>
     </li>
@@ -625,7 +577,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part4/hello/" class="md-nav__link">
+      <a href="../../part4/hello/" class="md-nav__link">
         hello python node
       </a>
     </li>
@@ -639,7 +591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part4/hello_laser/" class="md-nav__link">
+      <a href="../../part4/hello_laser/" class="md-nav__link">
         read scan/laser data
       </a>
     </li>
@@ -653,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part4/wall_follow/" class="md-nav__link">
+      <a href="../../part4/wall_follow/" class="md-nav__link">
         wall follow
       </a>
     </li>
@@ -701,7 +653,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part5/" class="md-nav__link">
+      <a href="../../part5/" class="md-nav__link">
         Part5 - ROS2 Service
       </a>
     </li>
@@ -715,7 +667,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part5/interface/" class="md-nav__link">
+      <a href="../../part5/interface/" class="md-nav__link">
         service interface
       </a>
     </li>
@@ -729,7 +681,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part5/parameter/" class="md-nav__link">
+      <a href="../../part5/parameter/" class="md-nav__link">
         ROS2 parameter
       </a>
     </li>
@@ -743,7 +695,7 @@
   
   
     <li class="md-nav__item">
-      <a href="part5/service/" class="md-nav__link">
+      <a href="../../part5/service/" class="md-nav__link">
         service
       </a>
     </li>
@@ -791,7 +743,7 @@
   
   
     <li class="md-nav__item">
-      <a href="px4/ros2/" class="md-nav__link">
+      <a href="../../px4/ros2/" class="md-nav__link">
         PX4 ROS2
       </a>
     </li>
@@ -839,7 +791,7 @@
   
   
     <li class="md-nav__item">
-      <a href="resources/course_to/" class="md-nav__link">
+      <a href="../../resources/course_to/" class="md-nav__link">
         courses
       </a>
     </li>
@@ -859,12 +811,14 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" >
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_11" type="checkbox" id="__nav_11" checked>
       
       
       
@@ -887,7 +841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vscode/extensions/" class="md-nav__link">
+      <a href="../extensions/" class="md-nav__link">
         Extensions
       </a>
     </li>
@@ -899,11 +853,62 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="vscode/schema/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          using schema for sdf validation and tips
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         using schema for sdf validation and tips
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#config-xml-ext-to-validate-xml-against-schema" class="md-nav__link">
+    Config XML ext. to validate xml against schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-xacro-support-to-schema" class="md-nav__link">
+    Add xacro support to schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource" class="md-nav__link">
+    Resource
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -915,7 +920,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vscode/settings/" class="md-nav__link">
+      <a href="../settings/" class="md-nav__link">
         settings
       </a>
     </li>
@@ -929,7 +934,7 @@
   
   
     <li class="md-nav__item">
-      <a href="vscode/snippets/" class="md-nav__link">
+      <a href="../snippets/" class="md-nav__link">
         snippets
       </a>
     </li>
@@ -951,7 +956,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tags.html" class="md-nav__link">
+      <a href="../../tags.html" class="md-nav__link">
         Tags
       </a>
     </li>
@@ -975,8 +980,6 @@
   
   
   
-    
-  
   
     <label class="md-nav__title" for="__toc">
       <span class="md-nav__icon md-icon"></span>
@@ -985,15 +988,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#commands" class="md-nav__link">
-    Commands
+  <a href="#config-xml-ext-to-validate-xml-against-schema" class="md-nav__link">
+    Config XML ext. to validate xml against schema
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    Project layout
+  <a href="#add-xacro-support-to-schema" class="md-nav__link">
+    Add xacro support to schema
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#resource" class="md-nav__link">
+    Resource
   </a>
   
 </li>
@@ -1011,21 +1021,108 @@
               
                 
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs<a class="headerlink" href="#welcome-to-mkdocs" title="Permanent link">&para;</a></h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands<a class="headerlink" href="#commands" title="Permanent link">&para;</a></h2>
+<h2 id="config-xml-ext-to-validate-xml-against-schema">Config XML ext. to validate xml against schema<a class="headerlink" href="#config-xml-ext-to-validate-xml-against-schema" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
+<li>Install Red Hat XML extension <a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-xml">...</a></li>
+<li>Download schema from sdformat.org</li>
+<li>root.xsd main entry point</li>
+<li>Copy files to project / global location</li>
+<li>Associate file types to <code>&lt;path&gt;/root.xsd</code></li>
 </ul>
-<h2 id="project-layout">Project layout<a class="headerlink" href="#project-layout" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+<div class="highlight"><span class="filename">settings</span><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1"></a><span class="nt">&quot;xml.fileAssociations&quot;</span><span class="p">:</span> <span class="p">[</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2"></a>        <span class="p">{</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3"></a>            <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="s2">&quot;**/*.sdf&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4"></a>            <span class="nt">&quot;systemId&quot;</span><span class="p">:</span> <span class="s2">&quot;${workspaceFolder}/vscode/sdf_schema/root.xsd&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5"></a>        <span class="p">},</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6"></a>        <span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7"></a>            <span class="nt">&quot;pattern&quot;</span><span class="p">:</span> <span class="s2">&quot;**/*.world&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8"></a>            <span class="nt">&quot;systemId&quot;</span><span class="p">:</span> <span class="s2">&quot;${workspaceFolder}/vscode/sdf_schema/root.xsd&quot;</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9"></a>        <span class="p">}</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10"></a>    <span class="p">]</span>
 </code></pre></div>
+<hr />
+<h2 id="add-xacro-support-to-schema">Add xacro support to schema<a class="headerlink" href="#add-xacro-support-to-schema" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Add xacro schema to support xacro tags and namespace </li>
+<li>Add xacro support to <code>root.xsd</code></li>
+</ul>
+<table class="highlighttable"><tr><th colspan="2" class="filename"><div class="highlight"><span class="filename">root.xsd</span></div></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-1-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-1-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-1-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-1-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-1-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-1-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-1-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-1-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-1-10">10</a></span>
+<span class="normal"><a href="#__codelineno-1-11">11</a></span>
+<span class="normal"><a href="#__codelineno-1-12">12</a></span>
+<span class="normal"><a href="#__codelineno-1-13">13</a></span>
+<span class="normal"><a href="#__codelineno-1-14">14</a></span>
+<span class="normal"><a href="#__codelineno-1-15">15</a></span>
+<span class="normal"><a href="#__codelineno-1-16">16</a></span>
+<span class="normal"><a href="#__codelineno-1-17">17</a></span>
+<span class="normal"><a href="#__codelineno-1-18">18</a></span>
+<span class="normal"><a href="#__codelineno-1-19">19</a></span>
+<span class="normal"><a href="#__codelineno-1-20">20</a></span>
+<span class="normal"><a href="#__codelineno-1-21">21</a></span>
+<span class="normal"><a href="#__codelineno-1-22">22</a></span>
+<span class="normal"><a href="#__codelineno-1-23">23</a></span>
+<span class="normal"><a href="#__codelineno-1-24">24</a></span>
+<span class="normal"><a href="#__codelineno-1-25">25</a></span>
+<span class="normal"><a href="#__codelineno-1-26">26</a></span>
+<span class="normal"><a href="#__codelineno-1-27">27</a></span>
+<span class="normal"><a href="#__codelineno-1-28">28</a></span>
+<span class="normal"><a href="#__codelineno-1-29">29</a></span>
+<span class="normal"><a href="#__codelineno-1-30">30</a></span>
+<span class="normal"><a href="#__codelineno-1-31">31</a></span>
+<span class="normal"><a href="#__codelineno-1-32">32</a></span>
+<span class="normal"><a href="#__codelineno-1-33">33</a></span>
+<span class="normal"><a href="#__codelineno-1-34">34</a></span>
+<span class="normal"><a href="#__codelineno-1-35">35</a></span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1"></a><span class="cp">&lt;?xml version=&#39;1.0&#39; encoding=&#39;UTF-8&#39;?&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2"></a><span class="nt">&lt;xsd:schema</span> 
+<a id="__codelineno-1-3" name="__codelineno-1-3"></a>  <span class="na">xmlns:xsd=</span><span class="s">&#39;http://www.w3.org/2001/XMLSchema&#39;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4"></a><span class="hll">  <span class="na">xmlns:xacro=</span><span class="s">&quot;http://www.ros.org/wiki/xacro&quot;</span>
+</span><a id="__codelineno-1-5" name="__codelineno-1-5"></a><span class="nt">&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6"></a>  <span class="nt">&lt;xsd:annotation&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7"></a>    <span class="nt">&lt;xsd:documentation</span> <span class="na">xml:lang=</span><span class="s">&#39;en&#39;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8"></a>      <span class="cp">&lt;![CDATA[SDF base element.]]&gt;</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9"></a>    <span class="nt">&lt;/xsd:documentation&gt;</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10"></a>  <span class="nt">&lt;/xsd:annotation&gt;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11"></a>  <span class="nt">&lt;xsd:include</span> <span class="na">schemaLocation=</span><span class="s">&#39;http://sdformat.org/schemas/types.xsd&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12"></a>  <span class="nt">&lt;xsd:include</span> <span class="na">schemaLocation=</span><span class="s">&#39;http://sdformat.org/schemas/world.xsd&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13"></a>  <span class="nt">&lt;xsd:include</span> <span class="na">schemaLocation=</span><span class="s">&#39;http://sdformat.org/schemas/model.xsd&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14"></a>  <span class="nt">&lt;xsd:include</span> <span class="na">schemaLocation=</span><span class="s">&#39;http://sdformat.org/schemas/actor.xsd&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15"></a>  <span class="nt">&lt;xsd:include</span> <span class="na">schemaLocation=</span><span class="s">&#39;http://sdformat.org/schemas/light.xsd&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16"></a><span class="hll">  <span class="nt">&lt;xsd:import</span> <span class="na">namespace=</span><span class="s">&quot;http://www.ros.org/wiki/xacro&quot;</span> <span class="na">schemaLocation=</span><span class="s">&quot;xacro.xsd&quot;</span><span class="nt">/&gt;</span>
+</span><a id="__codelineno-1-17" name="__codelineno-1-17"></a>  <span class="nt">&lt;xsd:element</span> <span class="na">name=</span><span class="s">&#39;sdf&#39;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18"></a>    <span class="nt">&lt;xsd:complexType&gt;</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19"></a>      <span class="nt">&lt;xsd:choice</span> <span class="na">maxOccurs=</span><span class="s">&#39;unbounded&#39;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20"></a><span class="hll">        <span class="nt">&lt;xsd:element</span> <span class="na">ref=</span><span class="s">&#39;xacro:include&#39;</span><span class="nt">/&gt;</span>
+</span><a id="__codelineno-1-21" name="__codelineno-1-21"></a>        <span class="nt">&lt;xsd:element</span> <span class="na">ref=</span><span class="s">&#39;world&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22"></a>        <span class="nt">&lt;xsd:element</span> <span class="na">ref=</span><span class="s">&#39;model&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23"></a>        <span class="nt">&lt;xsd:element</span> <span class="na">ref=</span><span class="s">&#39;actor&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-24" name="__codelineno-1-24"></a>        <span class="nt">&lt;xsd:element</span> <span class="na">ref=</span><span class="s">&#39;light&#39;</span><span class="nt">/&gt;</span>
+<a id="__codelineno-1-25" name="__codelineno-1-25"></a>      <span class="nt">&lt;/xsd:choice&gt;</span>
+<a id="__codelineno-1-26" name="__codelineno-1-26"></a>      <span class="nt">&lt;xsd:attribute</span> <span class="na">name=</span><span class="s">&#39;version&#39;</span> <span class="na">type=</span><span class="s">&#39;xsd:string&#39;</span> <span class="na">use=</span><span class="s">&#39;required&#39;</span> <span class="nt">&gt;</span>
+<a id="__codelineno-1-27" name="__codelineno-1-27"></a>        <span class="nt">&lt;xsd:annotation&gt;</span>
+<a id="__codelineno-1-28" name="__codelineno-1-28"></a>          <span class="nt">&lt;xsd:documentation</span> <span class="na">xml:lang=</span><span class="s">&#39;en&#39;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-29" name="__codelineno-1-29"></a>            <span class="cp">&lt;![CDATA[Version number of the SDF format.]]&gt;</span>
+<a id="__codelineno-1-30" name="__codelineno-1-30"></a>          <span class="nt">&lt;/xsd:documentation&gt;</span>
+<a id="__codelineno-1-31" name="__codelineno-1-31"></a>        <span class="nt">&lt;/xsd:annotation&gt;</span>
+<a id="__codelineno-1-32" name="__codelineno-1-32"></a>      <span class="nt">&lt;/xsd:attribute&gt;</span>
+<a id="__codelineno-1-33" name="__codelineno-1-33"></a>    <span class="nt">&lt;/xsd:complexType&gt;</span>
+<a id="__codelineno-1-34" name="__codelineno-1-34"></a>  <span class="nt">&lt;/xsd:element&gt;</span>
+<a id="__codelineno-1-35" name="__codelineno-1-35"></a><span class="nt">&lt;/xsd:schema&gt;</span>
+</code></pre></div>
+</td></tr></table>
+<hr />
+<h1 id="resource">Resource<a class="headerlink" href="#resource" title="Permanent link">&para;</a></h1>
+<ul>
+<li><a href="http://sdformat.org/schemas/root.xsd">sdformat.org</a></li>
+<li><a href="https://myxml.in/download-xsd-from-url.html">Download schema offline</a></li>
+</ul>
 
               
             </article>
@@ -1038,15 +1135,30 @@ docs/
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        
+        <a href="../extensions/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Extensions" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Extensions
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="setup/" class="md-footer__link md-footer__link--next" aria-label="Next: colcon" rel="next">
+        <a href="../settings/" class="md-footer__link md-footer__link--next" aria-label="Next: settings" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              colcon
+              settings
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -1076,10 +1188,10 @@ docs/
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.annotate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.0bbba5b5.min.js"}</script>
     
     
-      <script src="assets/javascripts/bundle.e1a181d9.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e1a181d9.min.js"></script>
       
     
   </body>
