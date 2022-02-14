@@ -1,6 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<xsd:schema 
-  xmlns:xsd='http://www.w3.org/2001/XMLSchema'
-  targetNamespace="http://www.ros.org/wiki/xacro">
+<xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' targetNamespace="http://www.ros.org/wiki/xacro">
+
+
+
   <xsd:element name='include' />
+  <xsd:element name='arg'>
+    <xsd:complexType>
+      <xsd:attribute name ="name" type ="xsd:string" use="required"/>
+      <xsd:attribute name ="default" type ="xsd:boolean"/>
+    </xsd:complexType>
+  </xsd:element>
 </xsd:schema>

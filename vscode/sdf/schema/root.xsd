@@ -18,6 +18,7 @@
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>
         <xsd:element ref='xacro:include'/>
+        <xsd:element ref='xacro:arg'/>
         <xsd:element ref='world'/>
         <xsd:element ref='model'/>
         <xsd:element ref='actor'/>
