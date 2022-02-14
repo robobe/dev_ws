@@ -95,6 +95,7 @@ if __name__ == '__main__':
 - [Fast DDS Installation](https://docs.px4.io/master/en/dev_setup/fast-dds-installation.html)
 - [ROS 2 User Guide (PX4-ROS 2 Bridge)](https://docs.px4.io/master/en/ros/ros2_comm.html#build-ros-2-workspace)
 - [ROS 2 Offboard Control Example](https://docs.px4.io/master/en/ros/ros2_offboard_control.html)
+- [Launch PX4 via ROS2 python launch file](https://discuss.px4.io/t/launch-px4-via-ros2-python-launch-file/20370/13)
      
      
      
