@@ -1,0 +1,72 @@
+{
+    "mk_code_include": {
+        "prefix": "mk_code_inc",
+        "body": [
+          "```${1|python,json,cpp,cmake,xml,bash|} title=\"${2}\" linenums=\"1\" hl_lines=\"\"",
+          "{{include(\"${3}\")}}",
+          "```"
+        ],
+        "description": "mk_code_include"
+    },
+    "mk_code_snippet": {
+        "prefix": "mk_code_snippet",
+        "body": [
+            "```${1|python,json,cpp,cmake,xml,bash|} title=\"${2}\" linenums=\"1\" hl_lines=\"\"",
+          "```"
+        ],
+        "description": "mk_code_include"
+    },
+    "mk_code_simple": {
+        "prefix": "mk_code_simple",
+        "body": [
+          "```${1|python,json,cpp,cmake,xml,bash|} title=\"${2}\"",
+          "```"
+        ],
+        "description": "mk_code_simple"
+    },
+    "mk_header": {
+        "prefix": "mk_header",
+        "body": [
+          "---",
+          "title: ${1}",
+          "tags:",
+          "\t- ${2:tag}",
+          "---",
+          "\n"
+        ],
+        "description": "mk_header, title and tags"
+    },
+    "mk_collops": {
+        "prefix": "mk_collops",
+        "body": [
+          "<details>",
+          "\t<summary>${1}</summary>",
+          "",
+          "${2:enter content}",
+          "</details>",
+          "\n"
+        ],
+        "description": "create collops section"
+    },
+    "mk_image_caption": {
+        "prefix": "mk_img_cap",
+        "body": [
+          "<figure markdown>",
+          "![](${1:image path})",
+          "<figcaption>",
+          "${2:caption}",
+          "</figcaption>",
+          "</figure>",
+          "\n"
+        ],
+        "description": "insert image with captions"
+    },
+    "mk_block_section": {
+      "prefix": "mk_block",
+      "body": [
+        "!!! ${1|note,summery,tip,warning,error,bug,example|} \"$2\"",
+        "     ${3}"
+      ],
+      "description": "mk_note"
+  },
+}
