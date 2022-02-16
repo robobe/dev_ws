@@ -5,21 +5,21 @@
       <![CDATA[The sensor tag describes the type and properties of a sensor.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plugin.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/altimeter.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/camera.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/contact.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/gps.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/imu.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/logical_camera.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/magnetometer.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/ray.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/rfid.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/rfidtag.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/sonar.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/transceiver.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/forcetorque.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plugin.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/altimeter.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/camera.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/contact.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/gps.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/imu.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/logical_camera.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/magnetometer.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/ray.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/rfid.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/rfidtag.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/sonar.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/transceiver.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/forcetorque.xsd'/>
   <xsd:element name='sensor'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

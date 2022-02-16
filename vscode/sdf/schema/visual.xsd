@@ -5,10 +5,10 @@
       <![CDATA[The visual properties of the link. This element specifies the shape of the object (box, cylinder, etc.) for visualization purposes.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/material.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/geometry.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plugin.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/material.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/geometry.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plugin.xsd'/>
   <xsd:element name='visual'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

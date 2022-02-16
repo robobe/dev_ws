@@ -5,14 +5,14 @@
       <![CDATA[A physical link with inertia, collision, and visual properties. A link must be a child of a model, and any number of links may exist in a model.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/inertial.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/collision.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/visual.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/sensor.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/projector.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/audio_sink.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/audio_source.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/inertial.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/collision.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/visual.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/sensor.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/projector.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/audio_sink.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/audio_source.xsd'/>
   <xsd:element name='link'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

@@ -1,0 +1,151 @@
+<?xml version="1.0"?>
+<sdf version="1.5">
+<model name="revolute_demo">
+    <link name="heavy_base">
+        <!-- position the base such that the bottom touches the floor -->
+        <pose>0 0 0.05 0 0 0</pose>
+        <inertial>
+            <mass>100</mass> <!-- kg -->
+            <inertia>
+                <!-- (mass / 12) * (y*y + z*z) -->
+                <ixx>8.4167</ixx>
+                <ixy>0</ixy>
+                <ixz>0</ixz>
+                <!-- (mass / 12) * (x*x + z*z) -->
+                <iyy>40.417</iyy>
+                <iyz>0</iyz>
+                <!-- (mass / 12) * (y*y + x*x) -->
+                <izz>48.667</izz>
+            </inertia>
+        </inertial>
+        <!-- Same geometry as visual -->
+        <collision name="heavy_base_collision">
+            <geometry>
+                <box>
+                    <size>2.2 1 0.1</size>
+                </box>
+            </geometry>
+        </collision>
+        <!-- Same geometry as collision -->
+        <visual name="heavy_base_visual">
+            <geometry>
+                <box>
+                    <size>2.2 1 0.1</size>
+                </box>
+            </geometry>
+            <material>
+                <script>
+                    <uri>model://demo_joint_types/materials/scripts</uri>
+                    <uri>model://demo_joint_types/materials/textures</uri>
+                    <name>demo_joint_types/legend</name>
+                </script>
+            </material>
+        </visual>
+    </link>
+
+    <link name="revolute_base">
+        <!-- Put the bottom of the child on top of the parent
+             z = 0.5 * revolute_base_sz_z + heavy_base_sz_z
+             x = put it near revolute label on heavy base
+             -->
+        <pose >-.72 0 0.35 0 0 0</pose>
+        <inertial>
+            <inertia>
+                <!-- (mass / 12) * (y*y + z*z) -->
+                <ixx>0.021667</ixx>
+                <ixy>0</ixy>
+                <ixz>0</ixz>
+                <!-- (mass / 12) * (x*x + z*z) -->
+                <iyy>0.021667</iyy>
+                <iyz>0</iyz>
+                <!-- (mass / 12) * (y*y + x*x) -->
+                <izz>0.0016667</izz>
+            </inertia>
+        </inertial>
+        <!-- Same geometry as visual -->
+        <collision name="revolute_base_collision">
+            <geometry>
+                <box>
+                    <size>0.1 0.1 0.5</size>
+                </box>
+            </geometry>
+        </collision>
+        <!-- Same geometry as collision -->
+        <visual name="revolute_base_visual">
+            <geometry>
+                <box>
+                    <size>0.1 0.1 0.5</size>
+                </box>
+            </geometry>
+            <material>
+                <script>
+                    <uri>model://demo_joint_types/materials/scripts</uri>
+                    <uri>model://demo_joint_types/materials/textures</uri>
+                    <name>demo_joint_types/parent</name>
+                </script>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="revolute_base_to_heavy_base" type="fixed">
+        <parent>heavy_base</parent>
+        <child>revolute_base</child>
+    </joint>
+
+    <link name="revolute_arm">
+        <!-- Put the arm near the top of the revolute_base
+             z = revolute_base_sz_z + heavy_base_sz_z - 0.5 * revolute_arm_sz_z
+             y = -0.5 * revolute_arm_sz_y + fudge(0.05)
+             x = revolute_base_x - 0.5 * revolute_base_sz_x + 0.5 * revolute_arm_sz_x + fudge(0.01)
+             -->
+        <pose >-.61 -0.075 0.55 0 0 0</pose>
+        <inertial>
+            <inertia>
+                <!-- (mass / 12) * (y*y + z*z) -->
+                <ixx>0.0060417</ixx>
+                <ixy>0</ixy>
+                <ixz>0</ixz>
+                <!-- (mass / 12) * (x*x + z*z) -->
+                <iyy>0.0016667</iyy>
+                <iyz>0</iyz>
+                <!-- (mass / 12) * (y*y + x*x) -->
+                <izz>0.0060417</izz>
+            </inertia>
+        </inertial>
+        <!-- Same geometry as visual -->
+        <collision name="revolute_arm_collision">
+            <geometry>
+                <box>
+                    <size>0.1 0.25 0.1</size>
+                </box>
+            </geometry>
+        </collision>
+        <!-- Same geometry as collision -->
+        <visual name="revolute_arm_visual">
+            <geometry>
+                <box>
+                    <size>0.1 0.25 0.1</size>
+                </box>
+            </geometry>
+            <material>
+                <script>
+                    <uri>model://demo_joint_types/materials/scripts</uri>
+                    <uri>model://demo_joint_types/materials/textures</uri>
+                    <name>demo_joint_types/child</name>
+                </script>
+            </material>
+        </visual>
+    </link>
+
+    <joint name="revolute_demo" type="revolute">
+        <parent>revolute_base</parent>
+        <child>revolute_arm</child>
+        <axis>
+            <xyz>1 0 0</xyz>
+        </axis>
+        <!-- Move the joint to the size a bit to be more like an arm
+             y = 0.5 * relative_arm_sz_y - fudge(0.05) -->
+        <pose>0 0.075 0 0 0 0</pose>
+    </joint>
+</model>
+</sdf>

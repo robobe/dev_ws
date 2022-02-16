@@ -5,19 +5,19 @@
       <![CDATA[The world element encapsulates an entire world description including: models, scene, physics, joints, and plugins]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/gui.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/physics.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/scene.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/light.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/model.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/actor.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plugin.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/joint.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/road.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/spherical_coordinates.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/state.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/population.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/gui.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/physics.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/scene.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/light.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/model.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/actor.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plugin.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/joint.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/road.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/spherical_coordinates.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/state.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/population.xsd'/>
   <xsd:element name='world'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

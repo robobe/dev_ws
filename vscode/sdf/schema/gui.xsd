@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema'>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plugin.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plugin.xsd'/>
   <xsd:element name='gui'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

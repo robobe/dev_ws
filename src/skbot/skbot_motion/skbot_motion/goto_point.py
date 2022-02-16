@@ -2,6 +2,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Point
+from std_srvs.srv import SetBool
 from nav_msgs.msg import Odometry
 # TODO: check it
 from transforms3d.euler import euler2quat, quat2euler
@@ -17,7 +18,7 @@ DESIRED_POSE: Point = Point(x=-5.0, y=7.0, z=0.0)
 DESIRED_PRECISION = 0.3
 DESIRED_YAW = math.pi / 90
 WORKING_HZ = 10
-
+# https://quaternions.online/
 def euler_from_quaternion(x, y, z, w):
         """
         Convert a quaternion into euler angles (roll, pitch, yaw)
@@ -58,6 +59,7 @@ class MyNode(Node):
         self.__state = StateEnum.YAW
         self.__pose: Point = None
         self.__yaw: float = 0
+        self.__active = False
 
         self.__change_state(self.__state)
         self.create_timer(1/WORKING_HZ, self.__state_machine)
@@ -72,6 +74,8 @@ class MyNode(Node):
             self.__odom_handler,
             qos_profile
         )
+
+        self.__service = self.create_service(SetBool, "go_to_point_switch", self.__srv_handler)
     
     def __odom_handler(self, msg: Odometry):
         """
@@ -88,6 +92,12 @@ class MyNode(Node):
         )
         self.__yaw = euler[EulerEnum.YAW]
         
+
+    def __srv_handler(self, req:SetBool.Request, resp:SetBool.Response):
+        self.__active = req.data
+        resp.success = True
+        resp.message = "Done"
+        return resp
 
     def __calc_yaw_error(self):
         desired_yaw = math.atan2(
@@ -126,6 +136,8 @@ class MyNode(Node):
         
 
     def __state_machine(self):
+        if not self.__active:
+            return
         if self.__state == StateEnum.YAW:
             self.__fix_yaw()
         elif self.__state == StateEnum.FORWARD:

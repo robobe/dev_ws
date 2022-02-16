@@ -5,6 +5,6 @@
       <![CDATA[An audio sink.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
   <xsd:element name='audio_sink' />
 </xsd:schema>

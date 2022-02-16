@@ -8,10 +8,10 @@
   ]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/box_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/cylinder_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/model.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/box_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/cylinder_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/model.xsd'/>
   <xsd:element name='population'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

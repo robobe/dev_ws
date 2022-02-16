@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<sdf version="1.5" xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:include filename="macro.sdf.xacro" />
+    <xacro:property name="base_size" value="10" />
+    <xacro:property name="base_height" value="0.5" />
+    <xacro:property name="poll_size" value="1" />
+    <xacro:property name="poll_height" value="10" />
+    <xacro:property name="arm_size" value="1" />
+    <xacro:property name="arm_height" value="5" />
+    <xacro:property name="simple_box_size" value="0.5" />
+    <model name="hung">
+        <!-- base -->
+        <link name="base">
+            <pose>0 0 ${base_height/2} 0 0 0</pose>
+            <collision name="base_collision">
+                <xacro:box_geometry x="${base_size}" y="${base_size}" z="${base_height}"/>
+            </collision>
+            <visual name="base_visual">
+                <xacro:box_geometry x="${base_size}" y="${base_size}" z="${base_height}"/>
+            </visual>
+            <xacro:box_inertial m="100" x="10" y="10" z="0.5"/>
+        </link>
+        <!-- poll -->
+        <link name="poll">
+            <pose frame="base">0 0 ${poll_height/2} 0 0 0</pose>
+            <collision name="base_collision">
+                <xacro:box_geometry x="${poll_size}" y="${poll_size}" z="${poll_height}"/>
+            </collision>
+            <visual name="base_visual">
+                <xacro:box_geometry x="${poll_size}" y="${poll_size}" z="${poll_height}"/>
+            </visual>
+            <xacro:box_inertial m="100" x="${poll_size}" y="${poll_size}" z="${poll_height}"/>
+        </link>
+
+        <joint name="base2poll" type="fixed">
+            <parent>base</parent>
+            <child>poll</child>
+        </joint>
+
+        <!-- arm -->
+        <link name="arm">
+            <pose frame="poll">${arm_height/2-poll_size/2} 0 ${poll_height/2+arm_size/2} 0 1.57 0</pose>
+            <collision name="arm_collision">
+                <xacro:box_geometry x="${arm_size}" y="${arm_size}" z="${arm_height}"/>
+            </collision>
+            <visual name="arm_visual">
+                <xacro:box_geometry x="${arm_size}" y="${arm_size}" z="${arm_height}"/>
+            </visual>
+            <xacro:box_inertial m="10" x="${arm_size}" y="${arm_size}" z="${arm_height}"/>
+        </link>
+
+        <joint name="arm2hose" type="fixed">
+            <parent>poll</parent>
+            <child>arm</child>
+        </joint>
+
+        <include>
+            <pose frame="arm">${arm_size/2} 0 ${arm_height/2} -1.5707 0 0</pose>
+            <uri>model://fire_hose_long</uri>
+        </include>
+
+        <joint name="arm2poll" type="fixed">
+            <parent>arm</parent>
+            <child>fire_hose_long::nozzle</child>
+        </joint>
+
+        <!-- simple_box -->
+        <link name="simple_box">
+            <pose frame="fire_hose_long::coupling">${(simple_box_size/2)+0.2} 0 0 0 0 0</pose>
+            <collision name="simple_box_collision">
+                <xacro:box_geometry x="${simple_box_size}" y="${simple_box_size}" z="${simple_box_size}"/>
+            </collision>
+            <visual name="simple_box_visual">
+                <xacro:box_geometry x="${simple_box_size}" y="${simple_box_size}" z="${simple_box_size}"/>
+            </visual>
+            <xacro:box_inertial m="3" x="${simple_box_size}" y="${simple_box_size}" z="${simple_box_size}"/>
+        </link>
+
+        <joint name="hose2simple_box" type="universal">
+            <pose>-${simple_box_size/2} 0 0 0 0 0</pose>
+            <parent>fire_hose_long::coupling</parent>
+            <child>simple_box</child>
+        </joint>
+    </model>
+</sdf>

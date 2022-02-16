@@ -5,11 +5,11 @@
       <![CDATA[The model element defines a complete robot or any other physical object.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/link.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/joint.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plugin.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/gripper.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/link.xsd'/>
+  <xsd:include schemaLocation='file:///home/user/dev_ws/vscode/sdf/schema/joint.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plugin.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/gripper.xsd'/>
   <xsd:element name='model'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

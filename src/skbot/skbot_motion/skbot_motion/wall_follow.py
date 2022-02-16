@@ -2,10 +2,11 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
+from std_srvs.srv import SetBool
 
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 
-ANGULAR_SPEED = 0.3
+ANGULAR_SPEED = 0.2
 LINEAR_SPEED = 0.6
 ONE_METER = 1
 
@@ -18,6 +19,7 @@ class MyNode(Node):
             depth=1
         )
 
+        self.__active = False
         
         self.__twist_pub = self.create_publisher(Twist, 
             "/skbot/cmd_vel",  
@@ -29,6 +31,14 @@ class MyNode(Node):
             self.__scan_handler,
             qos_profile
         )
+
+        self.__service = self.create_service(SetBool, "wall_follower_switch", self.__srv_handler)
+
+    def __srv_handler(self, req:SetBool.Request, resp:SetBool.Response):
+        self.__active = req.data
+        resp.success = True
+        resp.message = "Done"
+        return resp
 
     def __scan_handler(self, msg: LaserScan):
         # 720 / 5 = 144
@@ -42,6 +52,9 @@ class MyNode(Node):
         self.__take_action(regions)
 
     def __take_action(self, regions):
+        if not self.__active:
+            return
+            
         msg = Twist()
         linear_x = 0.0
         angular_z = 0.0

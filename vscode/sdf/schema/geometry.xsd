@@ -5,15 +5,15 @@
       <![CDATA[The shape of the visual or collision object.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/box_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/cylinder_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/heightmap_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/image_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/mesh_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/plane_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/polyline_shape.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/sphere_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/box_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/cylinder_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/heightmap_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/image_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/mesh_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/plane_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/polyline_shape.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/sphere_shape.xsd'/>
   <xsd:element name='geometry'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>

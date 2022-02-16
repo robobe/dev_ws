@@ -8,17 +8,19 @@
       <![CDATA[SDF base element.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/world.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/model.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/actor.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/light.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/world.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/model.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/actor.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/light.xsd'/>
   <xsd:import namespace="http://www.ros.org/wiki/xacro" schemaLocation="xacro.xsd"/>
   <xsd:element name='sdf'>
     <xsd:complexType>
       <xsd:choice maxOccurs='unbounded'>
         <xsd:element ref='xacro:include'/>
         <xsd:element ref='xacro:arg'/>
+        <xsd:element ref='xacro:macro'/>
+        <xsd:element ref='xacro:property'/>
         <xsd:element ref='world'/>
         <xsd:element ref='model'/>
         <xsd:element ref='actor'/>

@@ -3,11 +3,33 @@
 
 
 
-  <xsd:element name='include' />
+
+  <xsd:element name='include'>
+    <xsd:complexType>
+      <xsd:attribute name ="filename" type ="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
   <xsd:element name='arg'>
     <xsd:complexType>
       <xsd:attribute name ="name" type ="xsd:string" use="required"/>
       <xsd:attribute name ="default" type ="xsd:boolean"/>
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element name='property'>
+    <xsd:complexType>
+      <xsd:attribute name ="name" type ="xsd:string" use="required"/>
+      <xsd:attribute name ="value" type ="xsd:string"  use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name='macro'>
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:any minOccurs="0"/>
+      </xsd:sequence>
+      <xsd:attribute name ="name" type ="xsd:string" use="required"/>
+      <xsd:attribute name ="params" type ="xsd:string"/>
     </xsd:complexType>
   </xsd:element>
 </xsd:schema>

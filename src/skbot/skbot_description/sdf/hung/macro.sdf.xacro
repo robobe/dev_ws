@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<sdf version="1.5"
+    xmlns:xacro="http://www.ros.org/wiki/xacro">
+    <xacro:macro name="box_geometry" params="x y z">
+        <geometry>
+            <box>
+                <size>${x} ${y} ${z}</size>
+            </box>
+        </geometry>
+    </xacro:macro>
+
+    <xacro:macro name="box_inertial" params="m x y z">
+        <inertial>
+            <inertia>
+              <ixx>${m*(y*y+z*z)/12}</ixx>
+              <ixy>0</ixy>
+              <ixz>0</ixz>
+              <iyy>${m*(x*x+z*z)/12}</iyy>
+              <iyz>0</iyz>
+              <izz>${m*(x*x+z*z)/12}</izz>
+            </inertia>
+            <mass>${m}</mass>
+          </inertial>
+    </xacro:macro>
+</sdf>

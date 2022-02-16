@@ -44,11 +44,11 @@ tags:
       <![CDATA[SDF base element.]]>
     </xsd:documentation>
   </xsd:annotation>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/types.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/world.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/model.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/actor.xsd'/>
-  <xsd:include schemaLocation='http://sdformat.org/schemas/light.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/types.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/world.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/model.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/actor.xsd'/>
+  <xsd:include schemaLocation='/home/user/dev_ws/vscode/sdf/schema/light.xsd'/>
   <xsd:import namespace="http://www.ros.org/wiki/xacro" schemaLocation="xacro.xsd"/>
   <xsd:element name='sdf'>
     <xsd:complexType>
@@ -75,6 +75,6 @@ tags:
 ---
 
 # Resource
-- [sdformat.org](http://sdformat.org/schemas/root.xsd)
+- [sdformat.org](/home/user/dev_ws/vscode/sdf/schema/root.xsd)
 - [Download schema offline](https://myxml.in/download-xsd-from-url.html)
 

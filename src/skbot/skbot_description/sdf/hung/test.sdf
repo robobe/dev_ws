@@ -1,0 +1,5 @@
+<sdf version="1.5">
+    <model name="mtest">
+        <joint name="aa" type="fixed"></joint>
+    </model>
+</sdf>
