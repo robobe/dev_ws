@@ -21,6 +21,9 @@
         <xsd:element ref='xacro:arg'/>
         <xsd:element ref='xacro:macro'/>
         <xsd:element ref='xacro:property'/>
+        <xsd:element ref='xacro:insert_block'/>
+        <xsd:element ref='xacro:if'/>
+        <xsd:element ref='xacro:unless'/>
         <xsd:element ref='world'/>
         <xsd:element ref='model'/>
         <xsd:element ref='actor'/>

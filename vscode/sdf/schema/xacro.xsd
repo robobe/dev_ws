@@ -2,24 +2,44 @@
 <xsd:schema xmlns:xsd='http://www.w3.org/2001/XMLSchema' targetNamespace="http://www.ros.org/wiki/xacro">
 
 
+<xsd:element name='if'>
+  <xsd:complexType>
+    <xsd:attribute name ="value" type ="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
 
+<xsd:element name='unless'>
+  <xsd:complexType>
+    <xsd:attribute name ="value" type ="xsd:string" use="required"/>
+  </xsd:complexType>
+</xsd:element>
 
   <xsd:element name='include'>
     <xsd:complexType>
       <xsd:attribute name ="filename" type ="xsd:string" use="required"/>
     </xsd:complexType>
   </xsd:element>
+
+  <xsd:element name='insert_block'>
+    <xsd:complexType>
+      <xsd:attribute name ="name" type ="xsd:string" use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
   <xsd:element name='arg'>
     <xsd:complexType>
       <xsd:attribute name ="name" type ="xsd:string" use="required"/>
       <xsd:attribute name ="default" type ="xsd:boolean"/>
     </xsd:complexType>
   </xsd:element>
-  
+
   <xsd:element name='property'>
     <xsd:complexType>
+      <xsd:sequence>
+        <xsd:any minOccurs="0"/>
+      </xsd:sequence>
       <xsd:attribute name ="name" type ="xsd:string" use="required"/>
-      <xsd:attribute name ="value" type ="xsd:string"  use="required"/>
+      <xsd:attribute name ="value" type ="xsd:string"/>
     </xsd:complexType>
   </xsd:element>
 
