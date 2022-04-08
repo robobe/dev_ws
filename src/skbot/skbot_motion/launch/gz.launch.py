@@ -53,7 +53,7 @@ def generate_launch_description():
     out = xacro.open_output(urdf_path)
     out.write(doc)
 
-    # gz model --spawn-file=rrbot.xacro.urdf --model-name=rrbot
+    # gz model --spawn-file=/home/user/dev_ws/install/skbot_description/share/skbot_description/urdf/skbot.urdf --model-name=skbot
     spawn = ExecuteProcess(
             cmd=[
                 'gz', 'model',

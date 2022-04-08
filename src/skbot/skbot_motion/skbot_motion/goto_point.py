@@ -4,39 +4,22 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist, Point
 from std_srvs.srv import SetBool
 from nav_msgs.msg import Odometry
+from skbot_control.scripts.pid import PID
+from skbot_control.scripts import transforms
 # TODO: check it
 from transforms3d.euler import euler2quat, quat2euler
 import math
 from rclpy.qos import QoSProfile, QoSReliabilityPolicy, QoSHistoryPolicy
 from enum import IntEnum
 
-ANGULAR_SPEED = 0.3
+ANGULAR_SPEED = 0.1
 LINEAR_SPEED = 0.3
 ONE_METER = 1
 
-DESIRED_POSE: Point = Point(x=-5.0, y=7.0, z=0.0)
+DESIRED_POSE: Point = Point(x=7.0, y=7.0, z=0.0)
 DESIRED_PRECISION = 0.3
-DESIRED_YAW = math.pi / 90
+DESIRED_YAW = math.pi / 45
 WORKING_HZ = 10
-# https://quaternions.online/
-def euler_from_quaternion(x, y, z, w):
-        """
-        Convert a quaternion into euler angles (roll, pitch, yaw)
-        """
-        t0 = +2.0 * (w * x + y * z)
-        t1 = +1.0 - 2.0 * (x * x + y * y)
-        roll_x = math.atan2(t0, t1)
-     
-        t2 = +2.0 * (w * y - z * x)
-        t2 = +1.0 if t2 > +1.0 else t2
-        t2 = -1.0 if t2 < -1.0 else t2
-        pitch_y = math.asin(t2)
-     
-        t3 = +2.0 * (w * z + x * y)
-        t4 = +1.0 - 2.0 * (y * y + z * z)
-        yaw_z = math.atan2(t3, t4)
-     
-        return roll_x, pitch_y, yaw_z
 
 class EulerEnum(IntEnum):
     ROLL = 0
@@ -59,8 +42,9 @@ class MyNode(Node):
         self.__state = StateEnum.YAW
         self.__pose: Point = None
         self.__yaw: float = 0
-        self.__active = False
-
+        self.__active = True
+        self.__yaw_pid = PID()
+        self.__yaw_pid.SetPoint = 0
         self.__change_state(self.__state)
         self.create_timer(1/WORKING_HZ, self.__state_machine)
 
@@ -84,7 +68,7 @@ class MyNode(Node):
         """
         self.__pose = msg.pose.pose.position
         
-        euler = euler_from_quaternion(
+        euler = transforms.euler_from_quaternion(
             msg.pose.pose.orientation.x,
             msg.pose.pose.orientation.y,
             msg.pose.pose.orientation.z,
@@ -94,12 +78,19 @@ class MyNode(Node):
         
 
     def __srv_handler(self, req:SetBool.Request, resp:SetBool.Response):
+        """
+        Activate from Node
+        """
         self.__active = req.data
         resp.success = True
         resp.message = "Done"
         return resp
 
     def __calc_yaw_error(self):
+        """
+        Get current POSE from odom
+        Get current YAW from odom
+        """
         desired_yaw = math.atan2(
             DESIRED_POSE.y - self.__pose.y,
             DESIRED_POSE.x - self.__pose.x
@@ -109,16 +100,20 @@ class MyNode(Node):
         return yaw_err
 
     def __fix_yaw(self):
+        """
+        Pub twist command to fix yaw
+        """
         yaw_err = self.__calc_yaw_error()
-        z = ANGULAR_SPEED
-        
+        self.__yaw_pid.update(yaw_err)
+        z = self.__yaw_pid.output
+        self.get_logger().info(str(yaw_err))
         if math.fabs(yaw_err) > DESIRED_YAW:
             if yaw_err < 0:
                 z = -ANGULAR_SPEED
-            
-            self.__pub_twist(0, z)
         else:
-            self.__change_state(StateEnum.FORWARD)
+            z = 0
+            # self.__change_state(StateEnum.FORWARD)
+        self.__pub_twist(0, z)
 
     def __go_straight(self):
         err_pos = math.sqrt(

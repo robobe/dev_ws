@@ -18,3 +18,8 @@ tags:
     - tag2
 ---
 ```
+
+
+# Reference
+- [mkdocs-plugin-template](https://github.com/byrnereese/mkdocs-plugin-template)
+- [hello dolly mkdocs plugin](https://github.com/fmaida/hello-dolly-mkdocs-plugin)
