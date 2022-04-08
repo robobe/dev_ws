@@ -1,0 +1,5 @@
+simple_params:
+  ros__parameters:
+    my_str: "world from yaml"
+    my_int: 100
+    my_double_array: [1.0, 2.0, 3.0]
