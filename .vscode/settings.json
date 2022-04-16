@@ -73,4 +73,7 @@
         "variant": "cpp"
     },
     "python.formatting.provider": "black",
+    "python.analysis.extraPaths": [
+        "/home/user/dev_ws/install/rosmav_msgs/lib/python3.8/site-packages"
+    ]
 }

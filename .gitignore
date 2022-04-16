@@ -1,6 +1,9 @@
 log/
+logs/
 build/
 install/
+terrain/
+eeprom.bin
 **/aux
 **/__pycache__
 **/site

@@ -1,22 +1,28 @@
 import os
+os.environ['MAVLINK20'] = '1'
+
 import queue
 import threading
 import time
+import logging
 from pymavlink import mavutil
+from pymavlink.mavutil import mavfile
 from . import connection
 
-os.environ['MAVLINK20'] = '1'
-
+logging.basicConfig(format="[%(levelname)s] %(asctime)s %(message)s", level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class MavlinkConnection(connection.Connection):
     def __init__(self, device="tcp:127.0.0.1:5760"):
+        self.__command_loop_event = threading.Event()
         super().__init__()
+        self._send_rate = 10
 
         if not device:
             return
         while True:
             try:
-                self._master = mavutil.mavlink_connection(device)
+                self._master: mavfile = mavutil.mavlink_connection(device)
                 break
             except Exception as e:
                 print("Retrying connection in 1 second ...")
@@ -27,10 +33,22 @@ class MavlinkConnection(connection.Connection):
         self._read_handle.daemon = True
         self._read_handle.setName("mav_in")
         self._running = True
+
+        self._in_msg_queue = queue.Queue()  # a queue for sending data between threads
+        self._write_handle = threading.Thread(target=self.command_loop)
+        self._write_handle.daemon = True
+        self._write_handle.setName("mav_out")
+
         self.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_ATTITUDE, 2)
 
     def start(self):
+        logger.info("Start vehicle")
         self._read_handle.start()
+        self._write_handle.start()
+
+    def stop(self):
+        self._running = False
+        self._master.close()
 
     def request_message_interval(self, message_id: int, frequency_hz: float):
         """
@@ -54,15 +72,67 @@ class MavlinkConnection(connection.Connection):
     def send_message(self, msg):
         self._master.mav.send(msg)
 
+    def send_long_command(self, command_type, param1, param2=0, param3=0, param4=0, param5=0, param6=0, param7=0):
+        """
+        Packs and sends a Mavlink COMMAND_LONG message
+
+        Args:
+            command_type: the command type, as defined by MAV_CMD_*
+            param1: param1 as defined by the specific command
+            param2: param2 as defined by the specific command (default: {0})
+            param3: param3 as defined by the specific command (default: {0})
+            param4: param4 as defined by the specific command (default: {0})
+            param5: param5 (x) as defined by the specific command (default: {0})
+            param6: param6 (y) as defined by the specific command (default: {0})
+            param7: param7 (z) as defined by the specific command (default: {0})
+        """
+        try:
+            confirmation = 0  # may want this as an input.... used for repeat messages
+            msg = self._master.mav.command_long_encode(
+                self._master.target_system, 
+                self._master.target_component,
+                command_type,
+                confirmation, 
+                param1,
+                param2,
+                param3,
+                param4,
+                param5,
+                param6,
+                param7)
+
+            self._in_msg_queue.put_nowait(msg)
+        except:
+            logger.error("Failed to send long command", exc_info=True)
+
     def dispatch_loop(self):
         while self._running:
             msg = self.wait_for_message()
             if not msg:
                 time.sleep(0.01)
                 continue
+            # if msg.get_type() not in ["ATTITUDE"]:
+            #     logger.info(str(msg.to_dict()))
             self.notify_message_listeners(msg.get_type(), msg)
             # print(msg.to_dict())
 
+    def command_loop(self):
+        while self._running:
+            self.__command_loop_event.wait(1/self._send_rate)
+            try:
+                msg = self._in_msg_queue.get_nowait()
+                logger.info("Send message")
+                self.send_message(msg)
+            except queue.Empty:
+                # if there is no msgs in the queue, will just continue
+                pass
+            else:
+                pass
+                # TODO: implement high rate msg
+
+            
+            
+    
     def wait_for_message(self):
         """
         Wait for a new mavlink message calls pymavlink's blocking read function to read
@@ -95,3 +165,12 @@ class MavlinkConnection(connection.Connection):
             # pass the message along to be handled by this class
             return msg
 
+
+    def arm(self):
+        logger.warning("start send long command")
+        self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 1)
+        logger.warning("send long command")
+        # self._master.motors_armed_wait()
+
+    def disarm(self):
+        self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0)

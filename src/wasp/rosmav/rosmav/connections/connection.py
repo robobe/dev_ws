@@ -1,5 +1,8 @@
 from abc import ABCMeta, abstractmethod
-import traceback
+import logging
+
+logging.basicConfig(format="[%(levelname)s] %(asctime)s %(message)s", level=logging.DEBUG)
+logger = logging.getLogger(__name__)
 
 class Connection(object):
     def __init__(self):
@@ -35,6 +38,6 @@ class Connection(object):
             try:
                 fn(name, msg)
             except Exception as e:
-                traceback.print_exc()
+                logger.error("notify error", exc_info=True)
 
         
