@@ -1,0 +1,2 @@
+float64 ref_altitude_at_arm
+float64 current_altitude

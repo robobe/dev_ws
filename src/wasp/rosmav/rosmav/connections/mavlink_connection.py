@@ -39,7 +39,7 @@ class MavlinkConnection(connection.Connection):
         self._write_handle.daemon = True
         self._write_handle.setName("mav_out")
 
-        self.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_ATTITUDE, 2)
+        
 
     def start(self):
         logger.info("Start vehicle")
@@ -106,6 +106,9 @@ class MavlinkConnection(connection.Connection):
             logger.error("Failed to send long command", exc_info=True)
 
     def dispatch_loop(self):
+        """
+        Wait for message from vehicle and send notification to register callbacks
+        """
         while self._running:
             msg = self.wait_for_message()
             if not msg:
@@ -117,6 +120,9 @@ class MavlinkConnection(connection.Connection):
             # print(msg.to_dict())
 
     def command_loop(self):
+        """
+        Send command to vehicle
+        """
         while self._running:
             self.__command_loop_event.wait(1/self._send_rate)
             try:
@@ -165,6 +171,17 @@ class MavlinkConnection(connection.Connection):
             # pass the message along to be handled by this class
             return msg
 
+    def mode(self, mode:int):
+        """
+        MAV_CMD_DO_SET_MODE (176 )
+        1: Mode	Mode	MAV_MODE
+        2: Custom Mode	Custom mode - this is system specific, please refer to the individual autopilot specifications for details.	
+        3: Custom Submode	Custom sub mode - this is system specific, please refer to the individual autopilot specifications for details.	
+        4	Empty
+        """
+        self.send_long_command(mavutil.mavlink.MAV_CMD_DO_SET_MODE, 
+            mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
+            mode)
 
     def arm(self):
         logger.warning("start send long command")

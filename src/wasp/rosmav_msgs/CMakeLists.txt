@@ -15,7 +15,11 @@ find_package(ament_cmake REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   msg/Attitude.msg
+  msg/Altitude.msg
   srv/CommandBool.srv
+  srv/CommandString.srv
+  srv/CommandInt.srv
+  srv/CommandFloat.srv
  )
 # uncomment the following section in order to fill in
 # further dependencies manually.
