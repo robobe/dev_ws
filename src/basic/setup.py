@@ -27,6 +27,7 @@ setup(
             "simple_sub = basic.simple_sub:main",
             "simple_param = basic.simple_param:main",
             "simple_param2 = basic.simple_param2:main",
+            "simple_param3 = basic.simple_param3:main",
             "simple_srv = basic.simple_service:main",
             "simple_client = basic.simple_client:main"
 

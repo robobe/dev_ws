@@ -7,3 +7,5 @@ eeprom.bin
 **/aux
 **/__pycache__
 **/site
+**/venv
+**/.venv
