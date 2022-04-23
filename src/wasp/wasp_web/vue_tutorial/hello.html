@@ -1,0 +1,26 @@
+<script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+      }
+    }
+</script>
+
+<div id="app">{{get_name()}}</div>
+
+<script type="module">
+    import { createApp } from 'vue'
+
+    createApp({
+        data() {
+            return {
+                greeting: 'Hello world'
+            }
+        },
+        methods: {
+                get_name: function(){
+                    return this.greeting;
+                }
+        }
+    }).mount('#app')
+</script>
