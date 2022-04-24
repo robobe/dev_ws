@@ -17,19 +17,49 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-# uncomment the following section in order to fill in
-# further dependencies manually.
-# find_package(<dependency> REQUIRED)
+find_package(gazebo REQUIRED)
 
-if(BUILD_TESTING)
-  find_package(ament_lint_auto REQUIRED)
-  # the following line skips the linter which checks for copyrights
-  # uncomment the line when a copyright and license is not present in all source files
-  #set(ament_cmake_copyright_FOUND TRUE)
-  # the following line skips cpplint (only works in a git repo)
-  # uncomment the line when this package is not in a git repo
-  #set(ament_cmake_cpplint_FOUND TRUE)
-  ament_lint_auto_find_test_dependencies()
-endif()
+include_directories(
+        ${PROJECT_SOURCE_DIR}
+        include
+        ${GAZEBO_INCLUDE_DIRS}
+        )
 
+link_libraries(
+        ${GAZEBO_LIBRARIES}
+        )
+
+link_directories(
+        ${GAZEBO_LIBRARY_DIRS}
+        )
+
+add_library(ArduPilotPlugin SHARED src/ArduPilotPlugin.cc)
+target_link_libraries(ArduPilotPlugin ${GAZEBO_LIBRARIES})
+
+add_library(GimbalSmall2dPlugin SHARED src/GimbalSmall2dPlugin.cc)
+target_link_libraries(GimbalSmall2dPlugin ${GAZEBO_LIBRARIES})
+
+install(TARGETS
+  ArduPilotPlugin
+  GimbalSmall2dPlugin
+  ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
+  RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
+  )
+
+install(DIRECTORY
+  worlds
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY
+  models
+  DESTINATION share/${PROJECT_NAME}
+)
+
+install(DIRECTORY
+  launch
+  DESTINATION share/${PROJECT_NAME}
+)
 ament_package()
+
