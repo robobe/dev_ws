@@ -11,7 +11,7 @@
 <script type="module">
     import { createApp } from 'vue'
 
-    createApp({
+    const app = createApp({
         data() {
             return {
                 greeting: 'Hello world'
@@ -22,5 +22,13 @@
                     return this.greeting;
                 }
         }
-    }).mount('#app')
+    })
+    const vm = app.mount('#app')
+    setTimeout(function(){
+        vm.greeting = "qqqqqqqqqqqqqqqqqqqqqqqq"
+    }, 3)
+</script>
+<script>
+
+    
 </script>

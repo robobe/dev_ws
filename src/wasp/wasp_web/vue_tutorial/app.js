@@ -14,4 +14,7 @@ const app = Vue.createApp({
         }
     }
 })
-app.mount('#app')
+vm = app.mount('#app')
+setTimeout(function(){
+    vm.counter = 20;
+}, 3000)
