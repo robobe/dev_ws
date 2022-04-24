@@ -52,7 +52,7 @@ class CameraGuide(Node):
     def __init_comm(self):
         self.__attitude_sub = self.create_subscription(Attitude, "rosmav/attitude", self.__attitude_handler, 10)
         self.__altitude_pub = self.create_publisher(Altitude, "rosmav/altitude", 10)
-        self.__alt_setpoint_service = self.create_service(CommandFloat, "/rosmav/alt_setpoint", self.alt_setpoint_handler)
+        self.__alt_setpoint_service = self.create_service(CommandFloat, "/wasp/alt_setpoint", self.alt_setpoint_handler)
 
     def alt_setpoint_handler(self, request: CommandFloat.Request, response: CommandFloat.Response):
         self.get_logger().info("Request alt setpoint with data: {}".format(request.value))

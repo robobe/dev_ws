@@ -146,6 +146,7 @@ class Vehicle(Node):
         try:
             self.__vehicle.mode(request.value)
             is_action_ok = self.__sync_action_event.wait(timeout=MAVLINK_ACTION_TIMEOUT)
+            self.__vehicle.set_attitude()
             response.result = is_action_ok
         except:
             response.result = False

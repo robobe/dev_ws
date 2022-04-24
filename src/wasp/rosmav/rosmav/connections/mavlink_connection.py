@@ -4,10 +4,14 @@ os.environ['MAVLINK20'] = '1'
 import queue
 import threading
 import time
+import math
 import logging
+from collections import deque
 from pymavlink import mavutil
 from pymavlink.mavutil import mavfile
+from pymavlink.quaternion import QuaternionBase
 from . import connection
+
 
 logging.basicConfig(format="[%(levelname)s] %(asctime)s %(message)s", level=logging.DEBUG)
 logger = logging.getLogger(__name__)
@@ -17,7 +21,7 @@ class MavlinkConnection(connection.Connection):
         self.__command_loop_event = threading.Event()
         super().__init__()
         self._send_rate = 10
-
+        self.__boot_time = time.time()
         if not device:
             return
         while True:
@@ -39,6 +43,7 @@ class MavlinkConnection(connection.Connection):
         self._write_handle.daemon = True
         self._write_handle.setName("mav_out")
 
+        self.__attitude_queue = deque(maxlen=1)
         
 
     def start(self):
@@ -132,13 +137,11 @@ class MavlinkConnection(connection.Connection):
             except queue.Empty:
                 # if there is no msgs in the queue, will just continue
                 pass
-            else:
-                pass
-                # TODO: implement high rate msg
-
             
+            if len(self.__attitude_queue):
+                msg = self.__attitude_queue[0]
+                self.send_message(msg)
             
-    
     def wait_for_message(self):
         """
         Wait for a new mavlink message calls pymavlink's blocking read function to read
@@ -179,6 +182,8 @@ class MavlinkConnection(connection.Connection):
         3: Custom Submode	Custom sub mode - this is system specific, please refer to the individual autopilot specifications for details.	
         4	Empty
         """
+        mode_id = self._master.mode_mapping()["GUIDED_NOGPS"]
+        logger.info(f"change to mode: {mode_id}")
         self.send_long_command(mavutil.mavlink.MAV_CMD_DO_SET_MODE, 
             mavutil.mavlink.MAV_MODE_FLAG_CUSTOM_MODE_ENABLED,
             mode)
@@ -191,3 +196,35 @@ class MavlinkConnection(connection.Connection):
 
     def disarm(self):
         self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0)
+
+    def set_attitude(self, roll=0, pitch=0, yaw=0, thrust=0.8):
+        """
+        SET_ATTITUDE_TARGET ( #82 )
+        time_boot_ms	uint32_t	ms		Timestamp (time since system boot).
+        target_system	uint8_t			System ID
+        target_component	uint8_t			Component ID
+        type_mask	uint8_t		ATTITUDE_TARGET_TYPEMASK	Bitmap to indicate which dimensions should be ignored by the vehicle.
+        q	float[4]			Attitude quaternion (w, x, y, z order, zero-rotation is 1, 0, 0, 0)
+        body_roll_rate	float	rad/s		Body roll rate
+        body_pitch_rate	float	rad/s		Body pitch rate
+        body_yaw_rate	float	rad/s		Body yaw rate
+        thrust	float			Collective thrust, normalized to 0 .. 1 (-1 .. 1 for vehicles capable of reverse trust)
+        """
+        mask = mavutil.mavlink.ATTITUDE_TARGET_TYPEMASK_BODY_ROLL_RATE_IGNORE | \
+            mavutil.mavlink.ATTITUDE_TARGET_TYPEMASK_BODY_PITCH_RATE_IGNORE | \
+            mavutil.mavlink.ATTITUDE_TARGET_TYPEMASK_BODY_YAW_RATE_IGNORE
+        logger.info("-----------------------------------------------")
+        logger.info("------------ set attitude --------------------")
+        msg = self._master.mav.set_attitude_target_encode(
+            int(1e3 * (time.time() - self.__boot_time)), # ms since boot
+            self._master.target_system,
+            self._master.target_component,
+            mask,
+            # -> attitude quaternion (w, x, y, z | zero-rotation is 1, 0, 0, 0)
+            QuaternionBase([math.radians(angle) for angle in (roll, pitch, yaw)]),
+            0, # roll rate 
+            0, # pitch rate
+            0, # yaw rate
+            thrust  # thrust
+        )
+        self.__attitude_queue.append(msg)
