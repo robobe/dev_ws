@@ -29,7 +29,9 @@ setup(
             "simple_param2 = basic.simple_param2:main",
             "simple_param3 = basic.simple_param3:main",
             "simple_srv = basic.simple_service:main",
-            "simple_client = basic.simple_client:main"
+            "simple_client = basic.simple_client:main",
+            "pub_qos = basic.simple_qos_pub:main",
+            "sub_qos = basic.simple_qos_sub:main"
 
         ],
     },

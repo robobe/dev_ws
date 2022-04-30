@@ -11,8 +11,9 @@ class MinimalSubscriber(Node):
         # over a topic named: /minimal
         # The callback function is called as soon as a message is received.
         # The maximum number of queued messages is 10.
+        topic_name = self.get_namespace() + "/minimal"
         self.subscription = self.create_subscription(
-            String, "minimal", self.__sub_callback, 10
+            String, topic_name, self.__sub_callback, 10
         )
 
     def __sub_callback(self, msg):

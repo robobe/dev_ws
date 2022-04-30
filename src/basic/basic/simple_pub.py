@@ -1,8 +1,6 @@
 import rclpy
-
 # Handles the creation of nodes
 from rclpy.node import Node
-
 # Enables usage of the String message type
 from std_msgs.msg import String
 
@@ -10,7 +8,8 @@ from std_msgs.msg import String
 class MinimalPublisher(Node):
     def __init__(self):
         super().__init__("minimal_publisher")
-        self.publisher_ = self.create_publisher(String, "minimal", 10)
+        topic_name = self.get_namespace() + "/minimal"
+        self.publisher_ = self.create_publisher(String, topic_name, 10)
         timer_period = 1  # seconds
         self.timer = self.create_timer(timer_period, self.timer_callback)
         self.i = 0
