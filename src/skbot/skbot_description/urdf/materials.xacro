@@ -20,4 +20,10 @@
     <material name="orange">
         <color rgba="${255/255} ${108/255} ${10/255} 1.0"/>
     </material>
+    <material name="white">
+        <color rgba="${255/255} ${255/255} ${255/255} 1.0"/>
+      </material>
+      <material name="red">
+        <color rgba="${255/255} ${0/255} ${0/255} 1.0"/>
+      </material>
 </robot>

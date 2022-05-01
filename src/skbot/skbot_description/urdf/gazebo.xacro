@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 <robot>
-  <gazebo reference="chassis">
-    <material>Gazebo/Orange</material>
-  </gazebo>
-
-  <gazebo reference="caster_wheel">
-    <mu1>0.0</mu1>
-    <mu2>0.0</mu2>
+  <gazebo reference="base_link">
     <material>Gazebo/Red</material>
   </gazebo>
-
+  <gazebo reference="front_caster">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+    <material>Gazebo/White</material>
+  </gazebo>
   <!-- <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros2_control.so">
       <parameters>$(find skbot_control)/config/skbot_control.yaml</parameters>
@@ -29,12 +27,12 @@
       </ros>
 
       <!-- wheels -->
-      <left_joint>left_wheel_hinge</left_joint>
-      <right_joint>right_wheel_hinge</right_joint>
+      <left_joint>drivewhl_l_joint</left_joint>
+      <right_joint>drivewhl_r_joint</right_joint>
 
       <!-- kinematics -->
-      <wheel_separation>${chassisWidth+wheelWidth}</wheel_separation>
-      <wheel_diameter>${2*wheelRadius}</wheel_diameter>
+      <wheel_separation>${base_width+wheel_width}</wheel_separation>
+      <wheel_diameter>${2*wheel_radius}</wheel_diameter>
 
       <!-- limits -->
       <max_wheel_torque>10</max_wheel_torque>
