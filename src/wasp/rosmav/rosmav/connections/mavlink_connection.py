@@ -137,7 +137,10 @@ class MavlinkConnection(connection.Connection):
             except queue.Empty:
                 # if there is no msgs in the queue, will just continue
                 pass
-            
+            except:
+                logger.error("command loop failed", exc_info=True)
+
+            # Attitude queue
             if len(self.__attitude_queue):
                 msg = self.__attitude_queue[0]
                 self.send_message(msg)
@@ -196,6 +199,26 @@ class MavlinkConnection(connection.Connection):
 
     def disarm(self):
         self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0)
+
+    
+
+    def param_request(self, param_name)->None:
+        """
+        PARAM_REQUEST_READ ( #20 )
+        PARAM_VALUE ( #22 )
+        target_system	uint8_t	System ID
+        target_component	uint8_t	Component ID
+        param_id	char[16]	Onboard parameter id, terminated by NULL if the length is less than 16 human-readable chars and WITHOUT null termination (NULL) byte if the length is exactly 16 chars - applications have to provide 16+1 bytes storage if the ID is stored as string
+        param_index	int16_t	Parameter index. Send -1 to use the param ID field as identifier (else the param id will be ignored)
+        """
+        USE_PARAM_ID = -1
+        msg = self._master.mav.param_request_read_encode(
+            self._master.target_system,
+            self._master.target_component,
+            param_name.encode('utf-8'),
+            USE_PARAM_ID
+        )
+        self._in_msg_queue.put(msg)
 
     def set_attitude(self, roll=0, pitch=0, yaw=0, thrust=0.8):
         """

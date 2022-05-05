@@ -1,3 +1,6 @@
+import os
+os.environ['MAVLINK20'] = '1'
+
 from pymavlink import mavutil
 from pymavlink.dialects.v20 import ardupilotmega
 import threading
@@ -10,6 +13,7 @@ from rosmav_msgs.msg import Attitude, Altitude
 from rosmav_msgs.srv import CommandBool, CommandString, CommandInt
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
+from rclpy.task import Future
 from .utils import hypsometric_formula
 
 MAVLINK_ACTION_TIMEOUT = 3
@@ -47,16 +51,24 @@ class Vehicle(Node):
         self.__current_altitude = None
         self.__vehicle = MavlinkConnection()
         self.__vehicle.start()
+        self.__futures_cb = {}
         self.__sync_action_event = Event()
         self.__init_comm()
         self.__register_mavlink_messages()
         self.__init_mavlink_message_intervals()
         self.get_logger().info("Start mavlink node")
-        # self.create_timer(0.2, self.timer_callback)
+        self.create_timer(5, self.timer_callback)
+
+    async def timer_callback(self):
+        self.get_logger().info("time test")
+        await self.param_request_async("FRAME_CLASS")
+        self.get_logger().info("time action --------------------------")
 
     def __init_mavlink_message_intervals(self):
         self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_ATTITUDE, 2)
         self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_SCALED_PRESSURE, 2)
+        self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_PARAM_VALUE, 2)
+        
 
     def __init_comm(self):
         self.__attitude_publisher_ = self.create_publisher(Attitude, "rosmav/attitude", 10)
@@ -76,6 +88,39 @@ class Vehicle(Node):
         self.__vehicle.add_message_listener("ATTITUDE", self.__attitude_cb)
         self.__vehicle.add_message_listener("COMMAND_ACK", self.__command_ack_cb)
         self.__vehicle.add_message_listener("SCALED_PRESSURE", self.__baro_cb)  # SCALED_PRESSURE ( #29 )
+        self.__vehicle.add_message_listener("PARAM_VALUE", self.__param_value_cb) # PARAM_VALUE ( #22)
+
+    def param_request_async(self, param_name):
+        fut = Future(executor=executor)
+        self.__futures_cb["PARAM_VALUE"] = fut
+        def __test(f):
+            self.get_logger().info("async")
+        self.__vehicle.param_request(param_name)    
+        self.get_logger().info("wait")
+        time.sleep(2)
+        fut.add_done_callback(__test)
+        # fut.set_result(True)
+        return fut
+
+    def __param_value_cb(self, name, message):
+        """
+        PARAM_VALUE ( #22)
+        param_id
+        param_value
+        param_type
+        param_count
+        param_index
+        """
+        try:
+            self.get_logger().info(f"param {message.param_id} value {message.param_value}")
+            if "PARAM_VALUE" in self.__futures_cb and message.param_id == "FRAME_CLASS":
+                # pass
+                self.get_logger().info("-------------------------------------aaaaaaaaaaaaa")
+                fu = self.__futures_cb["PARAM_VALUE"]
+                fu.set_result(True)
+                self.get_logger().info("-------------------------------------bbbbbbbbbbbb")
+        except BaseException as e:
+            self.get_logger().error(e)
 
     def __baro_cb(self, name, message):
         """
@@ -177,10 +222,12 @@ class Vehicle(Node):
             self.__sync_action_event.clear()
         return response
 
+executor = None
 
 def main(args=None):
     rclpy.init(args=args)
     vehicle_node = Vehicle()
+    global executor
     executor = MultiThreadedExecutor(num_threads=4)
     executor.add_node(vehicle_node)
 
