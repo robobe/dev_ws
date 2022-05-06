@@ -19,6 +19,21 @@ from .utils import hypsometric_formula
 MAVLINK_ACTION_TIMEOUT = 3
 COMMAND_ACK_SUCCESS = 0
 
+class VehicleProperties():
+    def __init__(self) -> None:
+        self.__observers = []
+        self.__properties = {}
+
+    def register(self, cb):
+        self.__observers.append(cb)
+
+    def unregister(self, cb):
+        self.__observers.remove(cb)
+
+    def update(self, index, value):
+        self.__properties[index] = value
+        for cb in self.__observers:
+            cb(index, value)
 
 class VehicleArmed:
     def __init__(self) -> None:
@@ -46,6 +61,7 @@ class Vehicle(Node):
         super().__init__("vehicle")
         self.group1 = MutuallyExclusiveCallbackGroup()
         self.vehicle_armed = VehicleArmed()
+        self.vehicle_properties = VehicleProperties()
         self.vehicle_armed.register(self.__on_vehicle_armed)
         self.__altitude_at_arm = 0.0
         self.__current_altitude = None
@@ -57,19 +73,22 @@ class Vehicle(Node):
         self.__register_mavlink_messages()
         self.__init_mavlink_message_intervals()
         self.get_logger().info("Start mavlink node")
-        self.create_timer(5, self.timer_callback)
+        self.create_timer(3, self.debug_timer_callback)
 
-    async def timer_callback(self):
+    async def debug_timer_callback(self):
+        """
+        debug time to test actions
+        """
         self.get_logger().info("time test")
         await self.param_request_async("FRAME_CLASS")
         self.get_logger().info("time action --------------------------")
 
+    # region init
     def __init_mavlink_message_intervals(self):
         self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_ATTITUDE, 2)
         self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_SCALED_PRESSURE, 2)
         self.__vehicle.request_message_interval(mavutil.mavlink.MAVLINK_MSG_ID_PARAM_VALUE, 2)
         
-
     def __init_comm(self):
         self.__attitude_publisher_ = self.create_publisher(Attitude, "rosmav/attitude", 10)
         self.__altitude_publisher_ = self.create_publisher(Altitude, "rosmav/altitude", 10)
@@ -89,8 +108,19 @@ class Vehicle(Node):
         self.__vehicle.add_message_listener("COMMAND_ACK", self.__command_ack_cb)
         self.__vehicle.add_message_listener("SCALED_PRESSURE", self.__baro_cb)  # SCALED_PRESSURE ( #29 )
         self.__vehicle.add_message_listener("PARAM_VALUE", self.__param_value_cb) # PARAM_VALUE ( #22)
-
+    # endregion init
     def param_request_async(self, param_name):
+        fut = Future(executor=executor)
+        def param_handler(index, value):
+            if param_name == index:
+                fut.set_result(True)
+
+        self.vehicle_properties.register(param_handler)
+        self.__vehicle.param_request(param_name)
+        fut.add_done_callback(lambda f: self.vehicle_properties.unregister(param_handler))
+        return fut
+
+    def param_request_async2(self, param_name):
         fut = Future(executor=executor)
         self.__futures_cb["PARAM_VALUE"] = fut
         def __test(f):
@@ -102,6 +132,7 @@ class Vehicle(Node):
         # fut.set_result(True)
         return fut
 
+    # region mavlink meassage handlers 
     def __param_value_cb(self, name, message):
         """
         PARAM_VALUE ( #22)
@@ -113,14 +144,14 @@ class Vehicle(Node):
         """
         try:
             self.get_logger().info(f"param {message.param_id} value {message.param_value}")
-            if "PARAM_VALUE" in self.__futures_cb and message.param_id == "FRAME_CLASS":
-                # pass
-                self.get_logger().info("-------------------------------------aaaaaaaaaaaaa")
-                fu = self.__futures_cb["PARAM_VALUE"]
-                fu.set_result(True)
-                self.get_logger().info("-------------------------------------bbbbbbbbbbbb")
+            self.vehicle_properties.update(message.param_id, message.param_value)
+            # if "PARAM_VALUE" in self.__futures_cb and message.param_id == "FRAME_CLASS":
+                # self.get_logger().info("-------------------------------------aaaaaaaaaaaaa")
+                # fu = self.__futures_cb["PARAM_VALUE"]
+                # fu.set_result(True)
+                # self.get_logger().info("-------------------------------------bbbbbbbbbbbb")
         except BaseException as e:
-            self.get_logger().error(e)
+            print(e)
 
     def __baro_cb(self, name, message):
         """
@@ -145,13 +176,6 @@ class Vehicle(Node):
         msg.roll = message.roll
         msg.yaw = message.yaw
         self.__attitude_publisher_.publish(msg)
-        # self.get_logger().info(name)
-        # self.get_logger().info(str(msg))
-
-    def __on_vehicle_armed(self, armed):
-        if armed:
-            self.__altitude_at_arm = self.__current_altitude
-            self.__sync_action_event.set()
 
     def __command_ack_cb(self, name, message):
         """
@@ -168,25 +192,14 @@ class Vehicle(Node):
         # self.get_logger().info(threading.current_thread().name)
         self.vehicle_armed.armed = message.base_mode & ardupilotmega.MAV_MODE_FLAG_SAFETY_ARMED
 
-    def __run_t(self):
-        self.get_logger().info("run timer")
-        time.sleep(3)
-        self.get_logger().info("run timer1")
-        self.__notify.set()
-        self.__notify.clear()
+    # endregion mavlink meassage handlers
 
-    def test_callback(self, request: CommandBool.Request, response: CommandBool.Response):
-        t = threading.Thread(target=self.__run_t, daemon=True)
-        t.start()
-        self.get_logger().info(threading.current_thread().name)
-        self.get_logger().info("start")
-        is_timeout = self.__notify.wait(timeout=2)
-        self.get_logger().info("stop")
-
-        self.get_logger().info("cleared")
-        response.success = is_timeout
-        return response
-
+    def __on_vehicle_armed(self, armed):
+        if armed:
+            self.__altitude_at_arm = self.__current_altitude
+            self.__sync_action_event.set()
+    
+    # region system callback    
     def change_mode_callback(self, request: CommandBool.Request, response: CommandBool.Response):
         try:
             self.__vehicle.mode(request.value)
@@ -200,6 +213,9 @@ class Vehicle(Node):
         return response
 
     def arm_callback(self, request: CommandBool.Request, response: CommandBool.Response):
+        """
+        arm service
+        """
         self.get_logger().info(threading.current_thread().name)
         self.__sync_action_event.clear()
         is_set = self.__sync_action_event.is_set()
@@ -221,6 +237,8 @@ class Vehicle(Node):
         finally:
             self.__sync_action_event.clear()
         return response
+
+    # endregion system callback    
 
 executor = None
 
