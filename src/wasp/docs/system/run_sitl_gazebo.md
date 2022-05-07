@@ -12,4 +12,4 @@ ros2 launch rosmav sitl.gazebo.launch.py
 ```bash title="terminal2"
 ros2 launch wasp_gazebo gazebo.launch.py
 ```
-![](2022-04-24-17-07-25.png)
+![](images/gazebo_sim.png)

@@ -1,0 +1,19 @@
+@startuml arm sequence
+hide footbox
+title arm sequence
+
+actor service as service order 10
+participant mavlink as mav order 30
+participant vehicle as vehicle order 20
+actor ardupilot as apm order 40
+service -> vehicle ++: /rosmav/arm: CommandBool
+ref over vehicle: __sync_action_event:wait
+vehicle -> mav: arm
+mav --> mav: send long command
+mav -> apm : mavlink msg
+apm --> mav: HEARTBEAT msg
+mav --> vehicle++ #005500 : heartbeat_cb
+ref over vehicle: handle arm state
+ref over vehicle: __sync_action_event:set
+vehicle --> service: return : CommandBool
+@enduml

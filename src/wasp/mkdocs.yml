@@ -1,16 +1,10 @@
 site_name: WASP
 
 theme:
-  # https://squidfunk.github.io/mkdocs-material/creating-your-site/#configuration
   name: material
 
 plugins:
   - search # must be included at the first place
-  # - awesome-pages:
-
-#
-# Extensions
-#
 markdown_extensions:
   #
   # Python Markdown
@@ -38,8 +32,6 @@ markdown_extensions:
   #
   - pymdownx.arithmatex: # render math equations
       generic: true
-  # - pymdownx.betterem: # improve the detection of Markup to emphasize text in Markdown
-      # smart_enable: all
   - pymdownx.caret # define superscript
   - pymdownx.mark # highlight text
   - pymdownx.tilde # define subscript

@@ -6,3 +6,5 @@ tags:
     - control
     - altitude
 ---
+
+![](images/control.drawio.png)
