@@ -32,13 +32,13 @@ class MavlinkConnection(connection.Connection):
                 print("Retrying connection in 1 second ...")
                 time.sleep(1)
 
-        self._out_msg_queue = queue.Queue()  # a queue for sending data between threads
+        self._msg_queue = queue.Queue()  
         self._read_handle = threading.Thread(target=self.dispatch_loop)
         self._read_handle.daemon = True
         self._read_handle.setName("mav_in")
         self._running = True
 
-        self._in_msg_queue = queue.Queue()  # a queue for sending data between threads
+        self._cmd_queue = queue.Queue()
         self._write_handle = threading.Thread(target=self.command_loop)
         self._write_handle.daemon = True
         self._write_handle.setName("mav_out")
@@ -106,7 +106,7 @@ class MavlinkConnection(connection.Connection):
                 param6,
                 param7)
 
-            self._in_msg_queue.put_nowait(msg)
+            self._cmd_queue.put_nowait(msg)
         except:
             logger.error("Failed to send long command", exc_info=True)
 
@@ -122,7 +122,6 @@ class MavlinkConnection(connection.Connection):
             # if msg.get_type() not in ["ATTITUDE"]:
             #     logger.info(str(msg.to_dict()))
             self.notify_message_listeners(msg.get_type(), msg)
-            # print(msg.to_dict())
 
     def command_loop(self):
         """
@@ -131,7 +130,7 @@ class MavlinkConnection(connection.Connection):
         while self._running:
             self.__command_loop_event.wait(1/self._send_rate)
             try:
-                msg = self._in_msg_queue.get_nowait()
+                msg = self._cmd_queue.get_nowait()
                 logger.info("Send message")
                 self.send_message(msg)
             except queue.Empty:
@@ -195,12 +194,9 @@ class MavlinkConnection(connection.Connection):
         logger.warning("start send long command")
         self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 1)
         logger.warning("send long command")
-        # self._master.motors_armed_wait()
 
     def disarm(self):
         self.send_long_command(mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM, 0)
-
-    
 
     def param_request(self, param_name)->None:
         """
@@ -218,7 +214,7 @@ class MavlinkConnection(connection.Connection):
             param_name.encode('utf-8'),
             USE_PARAM_ID
         )
-        self._in_msg_queue.put(msg)
+        self._cmd_queue.put_nowait(msg)
 
     def set_attitude(self, roll=0, pitch=0, yaw=0, thrust=0.8):
         """

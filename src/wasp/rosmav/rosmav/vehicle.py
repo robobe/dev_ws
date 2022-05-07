@@ -5,6 +5,7 @@ from pymavlink import mavutil
 from pymavlink.dialects.v20 import ardupilotmega
 import threading
 from threading import Event
+import asyncio
 import rclpy
 import time
 from rclpy.node import Node
@@ -14,32 +15,37 @@ from rosmav_msgs.srv import CommandBool, CommandString, CommandInt
 from rclpy.executors import MultiThreadedExecutor
 from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 from rclpy.task import Future
+from rclpy.task import Task
 from .utils import hypsometric_formula
 
 MAVLINK_ACTION_TIMEOUT = 3
 COMMAND_ACK_SUCCESS = 0
 
-class VehicleProperties():
+class IObserver():
     def __init__(self) -> None:
-        self.__observers = []
-        self.__properties = {}
+        self._observers = []
 
     def register(self, cb):
-        self.__observers.append(cb)
+        self._observers.append(cb)
 
     def unregister(self, cb):
-        self.__observers.remove(cb)
+        self._observers.remove(cb)
+
+class VehicleProperties(IObserver):
+    def __init__(self) -> None:
+        super().__init__()
+        self.__properties = {}
 
     def update(self, index, value):
         self.__properties[index] = value
-        for cb in self.__observers:
+        for cb in self._observers:
             cb(index, value)
 
-class VehicleArmed:
+class VehicleArmed(IObserver):
     def __init__(self) -> None:
+        super().__init__()
         self.__state = False
-        self.__observers = []
-
+        
     @property
     def armed(self):
         return self.__state
@@ -48,13 +54,25 @@ class VehicleArmed:
     def armed(self, value):
         if value != self.__state:
             self.__state = value
-            for cb in self.__observers:
+            for cb in self._observers:
                 # exception handle by the cb
                 cb(value)
+                
+class VehicleMode(IObserver):
+    def __init__(self) -> None:
+        super().__init__()
+        self.__mode = -1
+    @property
+    def mode(self):
+        return self.__mode
 
-    def register(self, cb):
-        self.__observers.append(cb)
-
+    @mode.setter
+    def mode(self, value):
+        if value != self.__mode:
+            self.__mode = value
+            for cb in self._observers:
+                # exception handle by the cb
+                cb(value)
 
 class Vehicle(Node):
     def __init__(self):
@@ -62,18 +80,17 @@ class Vehicle(Node):
         self.group1 = MutuallyExclusiveCallbackGroup()
         self.vehicle_armed = VehicleArmed()
         self.vehicle_properties = VehicleProperties()
+        self.vehicle_mode = VehicleMode()
         self.vehicle_armed.register(self.__on_vehicle_armed)
         self.__altitude_at_arm = 0.0
         self.__current_altitude = None
         self.__vehicle = MavlinkConnection()
         self.__vehicle.start()
-        self.__futures_cb = {}
-        self.__sync_action_event = Event()
         self.__init_comm()
         self.__register_mavlink_messages()
         self.__init_mavlink_message_intervals()
         self.get_logger().info("Start mavlink node")
-        self.create_timer(3, self.debug_timer_callback)
+        # self.create_timer(3, self.debug_timer_callback)
 
     async def debug_timer_callback(self):
         """
@@ -109,7 +126,7 @@ class Vehicle(Node):
         self.__vehicle.add_message_listener("SCALED_PRESSURE", self.__baro_cb)  # SCALED_PRESSURE ( #29 )
         self.__vehicle.add_message_listener("PARAM_VALUE", self.__param_value_cb) # PARAM_VALUE ( #22)
     # endregion init
-    def param_request_async(self, param_name):
+    async def param_request_async(self, param_name):
         fut = Future(executor=executor)
         def param_handler(index, value):
             if param_name == index:
@@ -118,18 +135,6 @@ class Vehicle(Node):
         self.vehicle_properties.register(param_handler)
         self.__vehicle.param_request(param_name)
         fut.add_done_callback(lambda f: self.vehicle_properties.unregister(param_handler))
-        return fut
-
-    def param_request_async2(self, param_name):
-        fut = Future(executor=executor)
-        self.__futures_cb["PARAM_VALUE"] = fut
-        def __test(f):
-            self.get_logger().info("async")
-        self.__vehicle.param_request(param_name)    
-        self.get_logger().info("wait")
-        time.sleep(2)
-        fut.add_done_callback(__test)
-        # fut.set_result(True)
         return fut
 
     # region mavlink meassage handlers 
@@ -186,58 +191,73 @@ class Vehicle(Node):
         self.get_logger().info(str(message.to_dict()))
         if message.command == mavutil.mavlink.MAV_CMD_DO_SET_MODE:
             if message.result == COMMAND_ACK_SUCCESS:
-                self.__sync_action_event.set()
+                self.vehicle_mode.mode = message.result
 
     def __heartbeat_cb(self, name, message):
+        print(message)
         # self.get_logger().info(threading.current_thread().name)
-        self.vehicle_armed.armed = message.base_mode & ardupilotmega.MAV_MODE_FLAG_SAFETY_ARMED
+        # set true/false if vehicle armed
+        self.vehicle_armed.armed = message.base_mode & ardupilotmega.MAV_MODE_FLAG_SAFETY_ARMED == ardupilotmega.MAV_MODE_FLAG_SAFETY_ARMED
 
     # endregion mavlink meassage handlers
 
     def __on_vehicle_armed(self, armed):
         if armed:
             self.__altitude_at_arm = self.__current_altitude
-            self.__sync_action_event.set()
     
     # region system callback    
     def change_mode_callback(self, request: CommandBool.Request, response: CommandBool.Response):
+        """
+        method call by callgroup1
+        """
+        mode = request.value
+
+        sync_event = Event()
+        sync_event.clear()
+        
+        def handler():
+            sync_event.set()
+
+        self.vehicle_mode.register(handler)
         try:
-            self.__vehicle.mode(request.value)
-            is_action_ok = self.__sync_action_event.wait(timeout=MAVLINK_ACTION_TIMEOUT)
-            self.__vehicle.set_attitude()
+            self.__vehicle.mode(mode)
+            is_action_ok = sync_event.wait(timeout=MAVLINK_ACTION_TIMEOUT)
             response.result = is_action_ok
-        except:
-            response.result = False
+            return response
         finally:
-            self.__sync_action_event.clear()
-        return response
+            self.vehicle_mode.unregister(handler)
 
-    def arm_callback(self, request: CommandBool.Request, response: CommandBool.Response):
+    async def arm_callback(self, request: CommandBool.Request, response: CommandBool.Response):
         """
-        arm service
+        method call by callgroup1
         """
-        self.get_logger().info(threading.current_thread().name)
-        self.__sync_action_event.clear()
-        is_set = self.__sync_action_event.is_set()
-        self.get_logger().info(f"sync_action_event is set: {is_set}")
+        arm_request = request.value
+        # pre run validation
+        if arm_request and self.vehicle_armed.armed:
+            # Check if allready ARMED
+            response.success = True
+            return response
+
+        sync_event = Event()
+        sync_event.clear()
+        action_ok = False
+
+        def arm_handler(armed):
+            self.get_logger().info(f"Vehicle set to arm: {armed}")
+            nonlocal action_ok
+            action_ok = arm_request == armed
+            sync_event.set()
+
+        self.vehicle_armed.register(arm_handler)
+        handler = self.__vehicle.arm if arm_request else self.__vehicle.disarm
         try:
-            if request:
-                self.get_logger().info("Try to ARM")
-                self.__vehicle.arm()
-                is_action_ok = self.__sync_action_event.wait(timeout=MAVLINK_ACTION_TIMEOUT)
-                self.get_logger().info("ARMED")
-            else:
-                self.get_logger().info("Try to DISARM")
-                self.__vehicle.disarm()
-                is_action_ok = True
-            response.success = is_action_ok
-        except:
-            response.success = False
-            self.get_logger().error("Failed to ARMED")
+            handler()
+            is_action_ok = sync_event.wait(timeout=MAVLINK_ACTION_TIMEOUT)
+            response.success = is_action_ok and action_ok
+            return response
         finally:
-            self.__sync_action_event.clear()
-        return response
-
+            self.vehicle_armed.unregister(arm_handler)
+        
     # endregion system callback    
 
 executor = None
@@ -259,3 +279,4 @@ def main(args=None):
 
 if __name__ == "__main__":
     main()
+    
