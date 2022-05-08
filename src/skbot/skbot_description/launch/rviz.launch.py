@@ -9,6 +9,10 @@ def generate_launch_description():
     pkg_name = 'skbot_description'
     skbot_description_path = get_package_share_directory(pkg_name)
 
+    joint_state_publisher_gui_node = Node(
+        package='joint_state_publisher_gui',
+        executable='joint_state_publisher_gui',
+        name='joint_state_publisher_gui')
 
     rviz_node = Node(
             package='rviz2',
@@ -19,5 +23,6 @@ def generate_launch_description():
         )
 
     ld = LaunchDescription()
+    ld.add_action(joint_state_publisher_gui_node)
     ld.add_action(rviz_node)
     return ld
